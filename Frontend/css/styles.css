@@ -1,0 +1,35 @@
+:root {
+    --ff-primary: 'Poppins';
+
+    --clr-darkbackground: #000a30;
+    --clr-accent1: #bbe4ff;
+    --clr-accent2: #fff191;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    margin: 0; padding: 0;
+    background: var(--clr-darkbackground);
+    font-family: var(--ff-primary), sans-serif;
+  }
+
+/* Chart */
+.chart {
+    max-width: 1000px;
+    padding: 3em;
+    margin: auto;
+}
+
+/* Hero */
+.hero {
+    padding: 2em 0 0 0;
+    font-size: 1.4em;
+    margin: auto;
+    text-align: center;
+}
+.hero h1{
+    margin: auto;
+    padding: 0 4.75em 0 0;
+    color: var(--clr-accent2);
+}
