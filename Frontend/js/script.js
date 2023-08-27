@@ -36,8 +36,8 @@ function formatNumber(value) {
 }
 
 // Define datasets URLs:
-const actuals = 'data/Actuals_Feb_01_8AM.csv';
-const forecasts = 'data/Forecasts_Feb_01_8AM.csv';
+const actuals = 'Frontend/data/Actuals_Feb_01_8AM.csv';
+const forecasts = 'Frontend/data/Forecasts_Feb_01_8AM.csv';
 
 // Load and process the datasets:
 Promise.all([
