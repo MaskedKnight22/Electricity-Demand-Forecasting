@@ -45,19 +45,25 @@ header {
 }
 
 /* Chart */
+canvas {
+    margin: 0.75em 0 3em;
+}
 .chart {
     max-width: 1120px;
-    padding: 1.5em 4.5em 0 0;
-    margin: auto;
+    padding: 1.5em 15em;
+}
+.chart h1{
+    margin: 0;
+    padding: 0 0 0.3em;
+    font-size: 24px;
 }
 
 /* Hero */
 .hero {
     font-size: 1.4em;
-    margin: auto;
+    padding: 0 240px;
 }
 .hero h1{
     margin: auto;
-    padding: 0 0 0 5.3em;
     color: var(--clr-accent2);
 }
