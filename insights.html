@@ -46,6 +46,12 @@
     <div class="chart">
         <h1>Electricity Load Over Time (Hourly Load)</h1>
         <canvas id="boxplotChart"></canvas>
+        <h1>Electricity Load Over Time (Weekly Load)</h1>
+        <canvas id="weeklyBoxplotChart"></canvas>
+        <h1>Electricity Load Over Time (Monthly Load)</h1>
+        <canvas id="monthlyBoxplotChart"></canvas>
+        <h1>Electricity Load Over Time (Yearly Load)</h1>
+        <canvas id="yearlyBoxplotChart"></canvas>
     </div>
     
     <!-- Import Chart.js and D3.js -->
@@ -55,8 +61,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <!-- Include Chart.js adapter for Moment -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
-    <!-- Script for Chart.js Box Plot Extension -->
+    <!-- Script for Chart.js Plugins -->
     <script src="https://unpkg.com/@sgratzl/chartjs-chart-boxplot@3.6.0/build/index.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
     <!-- Custom JS -->
     <script src="Frontend/js/insights.js"></script>
 
