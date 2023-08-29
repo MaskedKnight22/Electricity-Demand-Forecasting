@@ -1,16 +1,19 @@
 :root {
     --ff-primary: 'Poppins';
 
-    --clr-darkbackground: #000a30;
-    --clr-accent1: #bbe4ff;
-    --clr-accent2: #fff191;
+    --clr-background: rgb(207, 245, 252);
+    --clr-accent1: rgb(50, 128, 144);
+    --clr-accent2: rgb(255, 224, 63);
+    --clr-accent3: rgb(135, 210, 215);
+    --clr-accent4: #96873a;
+    --clr-accent5: rgb(255, 241, 145);
 }
 
 body {
     height: 100vh;
     width: 100%;
     margin: 0; padding: 0;
-    background: var(--clr-darkbackground);
+    background: var(--clr-background);
     font-family: var(--ff-primary), sans-serif;
     color: var(--clr-accent1);
 }
@@ -22,7 +25,7 @@ ul {
 }
 a {
     text-decoration: none;
-    color: white;
+    color: var(--clr-accent1);
     display: block;
 }
 header {
@@ -41,7 +44,7 @@ header {
     padding: 0 0 0 4em;
 }
 .nav-container a:hover {
-    color: var(--clr-accent2);
+    color: var(--clr-accent3);
 }
 
 /* Chart */
@@ -56,6 +59,8 @@ canvas {
     margin: 0;
     padding: 0 0 0.3em;
     font-size: 24px;
+    color: var(--clr-accent2);
+    text-shadow: -2.5px 2.3px 1px var(--clr-accent4);
 }
 
 /* Hero */
@@ -65,5 +70,6 @@ canvas {
 }
 .hero h1{
     margin: auto;
-    color: var(--clr-accent2);
+    color: var(--clr-accent1);
+    text-shadow: -4px 3px 1px var(--clr-accent3);
 }
