@@ -47,13 +47,31 @@ header {
     color: var(--clr-accent3);
 }
 
+/* Intro */
+.intro {
+    max-width: 1120px;
+    margin: 1.5em 15em;
+}
+.intro h1{
+    margin: 0;
+    padding: 0 0 0.3em;
+    font-size: 24px;
+    color: var(--clr-accent1);
+    text-shadow: -2.5px 2.3px 1px var(--clr-accent3);
+}
+.no-margin-padding {
+    margin: 0;
+    padding: 0;
+}
+
+
 /* Chart */
 canvas {
     margin: 0.75em 0 3em;
 }
 .chart {
     max-width: 1120px;
-    padding: 1.5em 15em;
+    margin: 1.5em 15em;
 }
 .chart h1{
     margin: 0;
