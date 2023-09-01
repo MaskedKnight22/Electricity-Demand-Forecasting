@@ -91,3 +91,12 @@ canvas {
     color: var(--clr-accent1);
     text-shadow: -4px 3px 1px var(--clr-accent3);
 }
+
+/* Footer */
+.footer {
+    display: flex;
+    align-items: center;
+    padding: 1em 15em;
+    color: var(--clr-background);
+    background-color: var(--clr-accent1);
+}
