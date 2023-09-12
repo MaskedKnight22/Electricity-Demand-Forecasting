@@ -31,7 +31,7 @@
     <div class="intro">
         <p>The increasing complexity of modern electricity grids, driven by a mix of renewable energy sources and varying consumption patterns, has made the accurate forecasting of electricity demand more essential than ever. As grids evolve, so does the necessity for more nuanced and data-driven approaches to manage them effectively.</p>
         <p>This analysis is rooted in a comprehensive dataset that spans from March 18, 2017, to January 15, 2021. While the geographic location and the specific consumer demographics related to the data are not explicitly known, the time range uniquely positions us to analyze shifts in electricity demand, particularly in the context of the COVID-19 pandemic.</p>
-        <h1 class="no-margin-padding">Objectives</h1>
+        <h2 class="no-margin-padding">Objectives</h2>
         <p class="no-margin-padding">Our primary objectives are threefold:</p>
         <p>1. <b>Identify Patterns in Electricity Usage</b>: Understanding trends and anomalies in the data can guide efficient grid management and potentially result in cost savings for both suppliers and consumers.</p>
         <p>2. <b>Assess the Impact of COVID-19 on Electricity Demand</b>: The pandemic has upended typical consumption patterns, and analyzing these shifts can offer insights into the resilience and adaptability of electricity grids during unprecedented events.</p>
@@ -42,30 +42,30 @@
     <div class="chart">
         <h1>Electricity Load Over Time</h1>
         <canvas id="loadChart"></canvas>
-        <p>We observe from above that the following dataset is clearly seasonal. During the last few months of each year there 
-            is a great decrease in electricity demand and load overall in the city. It is also important to note that these drops 
-            begin just before the end of the year and begin to reach their peaks again towards the end of the summer months. 
-            This signified that there is a surge in load over the colder months of the year, indicating that this may be due to 
-            the use greater use of heaters and other winter related appliances. </p>
-        <p>What is also visible is that there is a significant decrease in electricity demand in the first quarter of the year 2020, this is the time where the COVID-19 pandemic hit the world. The pandemic led to industries being forced to shut down and the inclusion of remote work for workers to comply to COVID-19 protocols. This signifies that this area may be in an industrialised. This insight is further supported by observing that where there is supposed to be a peak in load with respect to previous data, there is actually a trough.</p>
+        <p>The time series plot gives an overarching view of the city's electricity load over a prolonged period. A distinct seasonality is apparent, with peaks typically occurring in colder months. This could be attributed to increased residential heating and other seasonal utilities. </p>
+        <p>An interesting deviation from the seasonal trend is observed in early 2020. The data points to a noticeable drop in electricity consumption during the initial phase of the COVID-19 pandemic. This may reflect changes in both residential and commercial energy use due to lockdowns and remote work policies.</p>
+          
     </div>
     <div class="chart">
         <h1>Electricity Load Over Time (Hourly Load)</h1>
         <canvas id="boxplotChart"></canvas>
+        <p>The hourly boxplot focuses on the electricity load within a day, revealing variations that correspond with waking and working hours. It's evident that load levels are higher during the typical 9-to-5 window, suggesting higher energy activities during these times. </p>
         <h1>Electricity Load Over Time (Weekly Load)</h1>
         <canvas id="weeklyBoxplotChart"></canvas>
+        <p>The weekly boxplot enhances our understanding of how electricity load fluctuates throughout a standard week. The marked difference between weekday and weekend electricity usage could be influenced by a range of factors, such as work schedules or leisure activities, offering a more granular view of the city's electricity consumption habits.</p>
         <h1>Electricity Load Over Time (Monthly Load)</h1>
         <canvas id="monthlyBoxplotChart"></canvas>
+        <p>At the monthly level, this chart reinforces the seasonality observed in the time-series data. Peaks and troughs line up with expected variations in weather, presenting an interesting lens through which to interpret the city's electricity needs and demands. It offers utility providers invaluable data for effective planning.</p>
         <h1>Electricity Load Over Time (Yearly Load)</h1>
         <canvas id="yearlyBoxplotChart"></canvas>
-        <p>From the hourly mapping we observe that there is a significant increase in load between the working hours of the day and a drop before and after those hours. In addition, it can be clearly seen that there is a significant lower load during the weekends as compared to the weekdays. Furthermore, the load within the first three years of the dataset is significantly greater as specified by the higher medians of the load overall, therefore, the area was significantly impacted by the pandemic and lowered load over those years. Ultimately, we found further evidence to support our hypothesis that this city is based within an industrialised area. </p>
-        <p>Since we believe this city was an industrial city we expect that there will be a significant differences between the correlations of the load between the pre-covid and during covid times. Specifically, we expect there to be lower correlation between the dataset during covid.</p>
+        <p>The yearly boxplot serves as a summary, capturing long-term patterns in electricity load. A noticeable change in the median load following the advent of the COVID-19 pandemic underscores the widespread impact of the event on electricity consumption in the area.</p>
+        <p>This raises compelling questions about whether changes induced by the pandemic are temporary anomalies or indicators of a more permanent shift in consumption patterns. The data suggests a need for further studies to understand these long-term implications.</p>
     </div>
     
     <!-- Footer -->
-    <div class="footer">
+    <footer>
         <p><b>This website is created by</b>: Group 15 - Anurag, Ethan, Jonathon, Nathan</p>
-    </div>
+    </footer>
 
     <!-- Import Chart.js and D3.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

@@ -10,6 +10,8 @@
 }
 
 body {
+    display: flex;
+    flex-direction: column;
     height: 100vh;
     width: 100%;
     margin: 0; padding: 0;
@@ -52,12 +54,12 @@ header {
     max-width: 1120px;
     margin: 1.5em 15em;
 }
-.intro h1{
+.intro h2{
     margin: 0;
     padding: 0 0 0.3em;
     font-size: 24px;
     color: var(--clr-accent1);
-    text-shadow: -2.5px 2.3px 1px var(--clr-accent3);
+    text-shadow: -2.2px 2.2px 1px var(--clr-accent3);
 }
 .no-margin-padding {
     margin: 0;
@@ -67,36 +69,37 @@ header {
 
 /* Chart */
 canvas {
-    margin: 0.75em 0 3em;
+    margin: 0.75em 0 2em;
 }
 .chart {
     max-width: 1120px;
     margin: 1.5em 15em;
 }
 .chart h1{
-    margin: 0;
+    margin: 2em 0 0 0;
     padding: 0 0 0.3em;
-    font-size: 24px;
+    font-size: 32px;
     color: var(--clr-accent2);
-    text-shadow: -2.5px 2.3px 1px var(--clr-accent4);
+    text-shadow: -3.7px 2.8px 1px var(--clr-accent4);
 }
 
 /* Hero */
 .hero {
-    font-size: 1.4em;
+    font-size: 1.5em;
     padding: 0 240px;
 }
 .hero h1{
     margin: auto;
     color: var(--clr-accent1);
-    text-shadow: -4px 3px 1px var(--clr-accent3);
+    text-shadow: -4.4px 3.6px 1px var(--clr-accent3);
 }
 
 /* Footer */
-.footer {
-    display: flex;
+footer {
+    flex-shrink: 0;
     align-items: center;
     padding: 1em 15em;
     color: var(--clr-background);
     background-color: var(--clr-accent1);
+    margin: 4em 0 0 0;
 }
