@@ -11,7 +11,10 @@ const COLORS = {
 };
 const DATASETS = {
     LOAD: 'data/data_for_analysis/df_load.csv',
-    LOAD_DT: 'data/data_for_analysis/df_load_dt.csv'
+    LOAD_DT: 'data/data_for_analysis/df_load_dt.csv',
+    TREND: 'data/data_for_analysis/trend.csv',
+    SEASONAL: 'data/data_for_analysis/seasonal.csv',
+    RESIDUAL: 'data/data_for_analysis/residual.csv'
 };
 let maxDate;  // Declare a variable to store the maximum date
 
@@ -28,7 +31,11 @@ function processData(loadedData) {
     const times = [];
     const loads = [];
     for (let row of loadedData) {
-        times.push(row.Time);
+        if (!row.Time || !row["Load (kW)"]) {
+            console.warn("Skipping row with missing data:", row);
+            continue;
+        }
+        times.push(moment(row.Time, "YYYY-MM-DD HH:mm:ss").toDate());  // Explicitly convert to Date object
         loads.push(parseFloat(row["Load (kW)"]));
     }
     return [times, loads];
@@ -185,6 +192,54 @@ function initBoxplotChart(elementId, loadedData, dataLabels, chartTitle, xAxisLa
     });
 }
 
+// Function to initialize the line chart for seasonal decomposition components
+function initSeasonalDecompositionChart(elementId, loadedData, label) {
+    const times = [];
+    const values = [];
+    for (let row of loadedData) {
+        // Verify that the row's Time and label fields are both non-empty
+        if (row.Time && row[label]) {
+            times.push(moment(row.Time, "YYYY-MM-DD").toDate());  // Assuming the datetime format in CSV is as specified
+            values.push(parseFloat(row[label]));
+        }
+    }
+  
+    console.log("Times: ", times);  // Debugging line
+    console.log("Values: ", values); // Debugging line
+
+    new Chart(document.getElementById(elementId), {
+        type: 'line',
+        data: {
+            labels: times,
+            datasets: [{
+                label: label,
+                data: values,
+                borderColor: COLORS.BORDER,
+                borderWidth: 1,
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'time',
+                    title: {
+                        display: true,
+                        text: 'Time'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: label
+                    }
+                }
+            }
+        }
+    });
+}
+
+
 // Function to limit decimal numbers to a maximum of 3:
 function formatNumber(value) {
     return parseFloat(value).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 3 });
@@ -204,14 +259,23 @@ function calculateStats(arr) {
 // Load and process the datasets
 Promise.all([
     d3.csv(DATASETS.LOAD),
-    d3.csv(DATASETS.LOAD_DT)
-]).then(function([loadData, loadDtData]) {
+    d3.csv(DATASETS.LOAD_DT),
+    d3.csv(DATASETS.TREND),
+    d3.csv(DATASETS.SEASONAL),
+    d3.csv(DATASETS.RESIDUAL)
+]).then(function([loadData, loadDtData, trendData, seasonalData, residualData]) {
     maxDate = loadData[loadData.length - 1].Time;
     initLoadChart(loadData);
     initBoxplotChart('boxplotChart', loadDtData, 'hour', 'Hourly Load (kW)', 'Hour');
     initBoxplotChart('weeklyBoxplotChart', loadDtData, 'dayofweek', 'Weekly Load (kW)', 'Day of Week');
     initBoxplotChart('monthlyBoxplotChart', loadDtData, 'month', 'Monthly Load (kW)', 'Month');
     initBoxplotChart('yearlyBoxplotChart', loadDtData, 'year', 'Yearly Load (kW)', 'Year');
+  
+    // Initialize the seasonal decomposition charts
+    initSeasonalDecompositionChart('trendChart', trendData, 'trend');
+    initSeasonalDecompositionChart('seasonalChart', seasonalData, 'seasonal');
+    initSeasonalDecompositionChart('residualChart', residualData, 'residual');
+  
 }).catch(function(error) {
     console.log("An error occurred while loading the datasets:", error);
 });
