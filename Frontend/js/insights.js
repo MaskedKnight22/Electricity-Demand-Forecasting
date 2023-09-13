@@ -193,7 +193,7 @@ function initBoxplotChart(elementId, loadedData, dataLabels, chartTitle, xAxisLa
 }
 
 // Function to initialize the line chart for seasonal decomposition components
-function initSeasonalDecompositionChart(elementId, loadedData, label) {
+function initSeasonalDecompositionChart(elementId, loadedData, label, yAxisLabel, maxDate) {
     const times = [];
     const values = [];
     for (let row of loadedData) {
@@ -214,25 +214,68 @@ function initSeasonalDecompositionChart(elementId, loadedData, label) {
             datasets: [{
                 label: label,
                 data: values,
-                borderColor: COLORS.BORDER,
-                borderWidth: 1,
+                backgroundColor: 'transparent',
+                borderColor: COLORS.BORDER_LITE,
+                borderWidth: 2,
                 fill: false
             }]
         },
         options: {
+            plugins: {
+                legend: {
+                    display: false
+                },
+                annotation: {
+                    annotations: {
+                        box1: {
+                          type: 'box',
+                          drawTime: 'beforeDatasetsDraw', // Draw it before drawing the data points
+                          xMin: '2020-03-11',
+                          xMax: maxDate,
+                          backgroundColor: 'rgb(255, 241, 145, 0.5)',
+                          borderColor: 'rgb(255, 224, 63)',
+                          label: {
+                            enabled: true,
+                            content: "COVID-19 Era",
+                            backgroundColor: 'rgb(255, 241, 145, 0.5)'
+                          }
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            // Format the x-axis label to remove time details
+                            const date = moment(tooltipItems[0].parsed.x).format("MMM DD, YYYY");
+                            return date;
+                        },
+                        label: function(tooltipItem) {
+                            // Use custom y-axis label
+                            const value = formatNumber(tooltipItem.parsed.y);
+                            return `${yAxisLabel}: ${value} kW`;
+                        }
+                    }
+                }
+            },
             scales: {
                 x: {
                     type: 'time',
                     title: {
                         display: true,
-                        text: 'Time'
-                    }
+                        text: 'Year'
+                    },
+                    grid: {
+                        color: COLORS.ACCENT,  // color for the vertical grid lines
+                    } 
                 },
                 y: {
                     title: {
                         display: true,
-                        text: label
-                    }
+                        text: yAxisLabel
+                    },
+                    grid: {
+                        color: COLORS.ACCENT,  // color for the vertical grid lines
+                    } 
                 }
             }
         }
@@ -272,9 +315,9 @@ Promise.all([
     initBoxplotChart('yearlyBoxplotChart', loadDtData, 'year', 'Yearly Load (kW)', 'Year');
   
     // Initialize the seasonal decomposition charts
-    initSeasonalDecompositionChart('trendChart', trendData, 'trend');
-    initSeasonalDecompositionChart('seasonalChart', seasonalData, 'seasonal');
-    initSeasonalDecompositionChart('residualChart', residualData, 'residual');
+    initSeasonalDecompositionChart('trendChart', trendData, 'trend', 'Trend', trendData[trendData.length - 1].Time);
+    initSeasonalDecompositionChart('seasonalChart', seasonalData, 'seasonal', 'Seasonality', maxDate);
+    initSeasonalDecompositionChart('residualChart', residualData, 'resid', 'Residual', residualData[residualData.length - 1].Time);
   
 }).catch(function(error) {
     console.log("An error occurred while loading the datasets:", error);

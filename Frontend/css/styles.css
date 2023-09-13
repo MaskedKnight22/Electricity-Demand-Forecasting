@@ -52,7 +52,7 @@ header {
 /* Intro */
 .intro {
     max-width: 1120px;
-    margin: 1.5em 15em;
+    margin: 0em 15em;
 }
 .intro h2{
     margin: 0;
@@ -73,10 +73,10 @@ canvas {
 }
 .chart {
     max-width: 1120px;
-    margin: 1.5em 15em;
+    margin: 0em 15em;
 }
 .chart h1{
-    margin: 2em 0 0 0;
+    margin: 1.5em 0 0 0;
     padding: 0 0 0.3em;
     font-size: 32px;
     color: var(--clr-accent2);

@@ -63,12 +63,17 @@
     </div>
     <!-- Seasonal Decomposition Charts -->
     <div class="chart">
-        <h1>Seasonal Decomposition: Trend</h1>
+        <h1>Seasonal Decomposition (Trend)</h1>
         <canvas id="trendChart"></canvas>
-        <h1>Seasonal Decomposition: Seasonal</h1>
+        <p>The seasonal decomposition chart, focused on annual seasonality, offers an intricate understanding of electricity consumption trends. It categorizes the data into three primary components: <b>trend, seasonality, and residual</b>. The <b>Trend</b> component reveals an alarming 
+           uptrend in electricity usage that peaks in <b>August 2019</b>, after which it sharply declines. While it might be tempting to attribute this decline to the onset of COVID-19, such a conclusion may be premature without further investigation.</p>
+        <h1>Seasonal Decomposition (Seasonality)</h1>
         <canvas id="seasonalChart"></canvas>
-        <h1>Seasonal Decomposition: Residual</h1>
+        <p>The <b>Seasonality</b> component uncovers consistent cycles in electricity demand, particularly notable spikes from September to October. Conversely, there is a discernible drop in December, which is somewhat unexpected. This drop may suggest that the dataset originates from a region without a winter season, potentially a country near the equator.</p>
+        <h1>Seasonal Decomposition (Residual)</h1>
         <canvas id="residualChart"></canvas>
+        <p>The <b>Residual</b> component features unexplained fluctuations, warranting a closer look for potential anomalies such as special events or technological shifts that may influence consumption patterns. One definitive event visible in the chart is the advent of <b>COVID-19</b> in <b>March 2020</b>, which coincides with a sharp dip in the residual values.</p>
+        <p>Overall, the insights gleaned from the seasonal decomposition chart are invaluable for both long-term strategic planning and short-term operational adjustments in electricity management. They particularly suggest the need for <b>dynamic pricing strategies</b> to manage seasonal loads more efficiently."</p>
     </div>
 
     
