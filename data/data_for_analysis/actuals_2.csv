@@ -1,4 +1,4 @@
-Time,Load (kW),Pressure_kpa,Cloud Cover (%),Humidity (%),Temperature (C) ,Wind Direction (deg),Wind Speed (kmh)
+Time,Load (kW),Pressure_kpa,Cloud Cover (%),Humidity (%),Temperature (C),Wind Direction (deg),Wind Speed (kmh)
 6/11/2020 16:00,1216027.932,1009.4125,55.25,67.33333333,22.56938622,301,19.19
 6/11/2020 17:00,1187988.432,1009.775,48,68.5,20.40438622,319,15.08375
 6/11/2020 18:00,1162516.932,1010.5875,18.25,69.75,17.91688622,321.875,11.47375

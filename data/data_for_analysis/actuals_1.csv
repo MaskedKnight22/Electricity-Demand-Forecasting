@@ -1,4 +1,4 @@
-Time,Load (kW),Pressure_kpa,Cloud Cover (%),Humidity (%),Temperature (C) ,Wind Direction (deg),Wind Speed (kmh)
+Time,Load (kW),Pressure_kpa,Cloud Cover (%),Humidity (%),Temperature (C),Wind Direction (deg),Wind Speed (kmh)
 18/3/2017 0:00,1031471.628,1012.48,2.125,79.33333333,16.76438622,285.25,6.25375
 18/3/2017 1:00,1007205.578,1011.61875,0,82.16666667,15.72938622,285,9.205
 18/3/2017 2:00,986108.4007,1010.72,2.125,81.66666667,15.81688622,316,11.28375
