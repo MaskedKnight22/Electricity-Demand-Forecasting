@@ -282,7 +282,6 @@ function initSeasonalDecompositionChart(elementId, loadedData, label, yAxisLabel
     });
 }
 
-
 // Function to limit decimal numbers to a maximum of 3:
 function formatNumber(value) {
     return parseFloat(value).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 3 });
@@ -318,7 +317,7 @@ Promise.all([
     initSeasonalDecompositionChart('trendChart', trendData, 'trend', 'Trend', trendData[trendData.length - 1].Time);
     initSeasonalDecompositionChart('seasonalChart', seasonalData, 'seasonal', 'Seasonality', maxDate);
     initSeasonalDecompositionChart('residualChart', residualData, 'resid', 'Residual', residualData[residualData.length - 1].Time);
-  
+    
 }).catch(function(error) {
     console.log("An error occurred while loading the datasets:", error);
 });
