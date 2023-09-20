@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity Demand Forecast</title>
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- CSS file -->
+    <link rel="stylesheet" href="Frontend/css/styles.css">
+</head>
+<body>
+    <!-- Desktop Nav -->
+    <div class="nav-container">
+        <header>
+            <a href="index.html">Home</a>
+            <nav class="nav-desktop">
+                <ul class="nav-desktop__list">
+                    <li><a href="insights.html">Insights</a></li>
+                    <li><a href="history.html">History</a></li>
+                    <li><a href="Upload.html">Insights</a></li>
+                </ul>
+            </nav>
+        </header>
+    </div>
+    
+    <!-- Hero -->
+    <div class="hero">
+        <h1>Forecast History</h1>
+    </div>
+        <button type="button" id="ForButton">Forecast Upload</button>
+    <button type="button" id="ActButton">Actual Upload</button>
+    <form id="ForForm" >
+        <table>
+            <H1>Requirements</H1>
+            <p>-Upload must be in 24 hour blocks</p>
+            <input type="file" id="forfile_upload" />
+            <button type="button" id="ForUpload">Upload Forecast Data</button> 
+            <table id="display_forcsv_data" border="1"></table>
+            <h1>Template</h1>
+            <p>Click the button below to be provided with an upload template for Forecasted Data</p>          
+            <button type="button" id="ForTemButton">Forecast Template</button>
+        </table>
+    </form>
+    <form id="ActForm" style="display:none;">
+        <table>
+            <H1>Requirements</H1>
+            <p>-Upload must be in 24 hour blocks</p>
+            <input type="file" id="actfile_upload" />
+            <button type="button" id="ActUpload">Upload Actual Data</button>
+            <table id="display_actcsv_data" border="1"></table>
+            <h1>Template</h1>
+            <p>Click the button below to be provided with an upload template for Actual Data</p>          
+            <button type="button" id="ActTemButton">Actual Template</button>
+        </table>
+    </form>
+
+    <footer>
+        <p><b>This website is created by</b>: Group 15 - Anurag, Ethan, Jonathon, Nathan</p>
+    </footer>
+    
+    <script src="Frontend/js/insights.js"></script>  
+
+    
+</body>
+</html>
