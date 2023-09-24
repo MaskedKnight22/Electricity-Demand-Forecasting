@@ -28,17 +28,20 @@
     <div class="hero">
         <h1>Forecast History</h1>
     </div>
-        <button type="button" id="ForButton">Forecast Upload</button>
+    
+    <button type="button" id="ForButton">Forecast Upload</button>
     <button type="button" id="ActButton">Actual Upload</button>
-    <form id="ForForm" >
+    <form id="ForForm">
         <table>
             <H1>Requirements</H1>
             <p>-Upload must be in 24 hour blocks</p>
-            <input type="file" id="forfile_upload" />
-            <button type="button" id="ForUpload">Upload Forecast Data</button> 
+            <input type="file" id="forfile_upload" accept="csv" />
+            <button type="button" id="ForCheck">Check Forecast Data</button>
             <table id="display_forcsv_data" border="1"></table>
+            <button type="button" id="ForUpload">Upload</button>
+            <button type="button" id="ForReset">Reset</button>
             <h1>Template</h1>
-            <p>Click the button below to be provided with an upload template for Forecasted Data</p>          
+            <p>Click the button below to be provided with an upload template for Forecasted Data</p>
             <button type="button" id="ForTemButton">Forecast Template</button>
         </table>
     </form>
@@ -46,11 +49,11 @@
         <table>
             <H1>Requirements</H1>
             <p>-Upload must be in 24 hour blocks</p>
-            <input type="file" id="actfile_upload" />
-            <button type="button" id="ActUpload">Upload Actual Data</button>
-            <table id="display_actcsv_data" border="1"></table>
+            <input type="file" id="actfile_upload" accept="csv"/>
+            <button type="button" id="ActUpload">Check Actual Data</button>
+            <table id="display_actcsv_data" border="1" ></table>
             <h1>Template</h1>
-            <p>Click the button below to be provided with an upload template for Actual Data</p>          
+            <p>Click the button below to be provided with an upload template for Actual Data</p>
             <button type="button" id="ActTemButton">Actual Template</button>
         </table>
     </form>
