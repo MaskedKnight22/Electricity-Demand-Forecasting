@@ -29,6 +29,7 @@
         <h1>Forecast History</h1>
     </div>
     
+<div class="uploadcontainer">
     <button type="button" id="ForButton">Forecast Upload</button>
     <button type="button" id="ActButton">Actual Upload</button>
     <form id="ForForm">
@@ -37,9 +38,9 @@
             <p>-Upload must be in 24 hour blocks</p>
             <input type="file" id="forfile_upload" accept="csv" />
             <button type="button" id="ForCheck">Check Forecast Data</button>
-            <table id="display_forcsv_data" border="1"></table>
-            <button type="button" id="ForUpload">Upload</button>
-            <button type="button" id="ForReset">Reset</button>
+            <table id="display_forcsv_data" border="1" style="display:none;"></table>
+            <button type="button" id="ForUpload" style="display:none;">Upload</button>
+            <button type="button" id="ForReset" style="display:none;">Reset</button>
             <h1>Template</h1>
             <p>Click the button below to be provided with an upload template for Forecasted Data</p>
             <button type="button" id="ForTemButton">Forecast Template</button>
@@ -50,14 +51,16 @@
             <H1>Requirements</H1>
             <p>-Upload must be in 24 hour blocks</p>
             <input type="file" id="actfile_upload" accept="csv"/>
-            <button type="button" id="ActUpload">Check Actual Data</button>
+            <button type="button" id="ActCheck">Check Actual Data</button>
             <table id="display_actcsv_data" border="1" ></table>
+            <button type="button" id="ActUpload" style="display:none;">Upload</button>
+            <button type="button" id="ActReset" style="display:none;">Reset</button>
             <h1>Template</h1>
             <p>Click the button below to be provided with an upload template for Actual Data</p>
             <button type="button" id="ActTemButton">Actual Template</button>
         </table>
     </form>
-
+    </div>
     <footer>
         <p><b>This website is created by</b>: Group 15 - Anurag, Ethan, Jonathon, Nathan</p>
     </footer>
