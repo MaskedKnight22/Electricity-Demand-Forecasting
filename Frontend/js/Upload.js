@@ -21,10 +21,6 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
     document.getElementById("ActForm").style.display = 'none';
 
     document.getElementById("display_forcsv_data").style.display = 'none';
-
-    document.getElementById("ForUpload").style.display = 'none';
-
-    document.getElementById("ForReset").style.display = 'none';
   
   };
 
@@ -32,12 +28,20 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   
     document.getElementById("ForTemButton").style.color = "#090706";
 
-    var fortemtime = new Date(fordate.getTime() + 12 * 60 * 60 * 1000);
+    var fortemtime = new Date(fordate.getTime() + 60 * 60 * 1000);
   
     var csv = 'Time,Temperature (C),Pressure_kpa,Cloud Cover (%),Wind Direction (deg),Wind Speed (kmh)\n';
   
     for (var i = 0; i < 24; i++) {
-      var fortime = fortemtime.toISOString().slice(0, 19).replace("T", " ");
+      var year = fortemtime.getFullYear();
+      var month = String(fortemtime.getMonth() + 1).padStart(2, '0'); // Add 1 because getMonth() returns 0-indexed month
+      var day = String(fortemtime.getDate()).padStart(2, '0');
+      var hours = String(fortemtime.getHours()).padStart(2, '0');
+      var minutes = String(fortemtime.getMinutes()).padStart(2, '0');
+      var seconds = String(fortemtime.getSeconds()).padStart(2, '0');
+  
+      var fortime = day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds;
+  
       csv += fortime + ",0,0,0,0,0\n";
   
       // Increment the time by 1 hour for the next row
@@ -125,11 +129,6 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
                   // Convert specific columns to their desired data types
                   if (key === "Time") {
-                    // Validate the date format using a regular expression
-                    var dateRegex = /^\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}$/;
-                    if (!dateRegex.test(cellValue)) {
-                      rowData[key] = cellValue
-                    }
                     // Parse the date string manually
                     var dateParts = cellValue.split(" ");
                     var datePart = dateParts[0].split("/");
@@ -141,6 +140,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
                       parseInt(timePart[0]),  // hour
                       parseInt(timePart[1])   // minute
                     );
+
       
                     // Check if parsing was successful and it's a valid Date object
                     if (!isNaN(parsedDate.getTime())) {
@@ -197,19 +197,21 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
               var cellValue = row[key];
               var dataType = typeof cellValue;
               var cellContent = cellValue;
-              
+
               // Checks if the data type matches the required format
               if (key === "Time" && cellValue instanceof Date && !isNaN(cellValue.getTime())) {
+                console.log(cellValue)
+                console.log(forcomparetime)
                 if (cellValue.getTime() !== forcomparetime.getTime() || i > 23) {
                   cellContent = cellValue + ' ❌'; // Display a cross (❌)
                   forupload = 1;
               }
               else{
-                cellContent = cellValue + ' ✔️'; // checks if Time is a Date
+                cellContent = cellValue + ' ✅'; // checks if Time is a Date
               }
               }
                else if ((key === "Temperature (C)" || key === "Pressure_kpa" || key === "Cloud Cover (%)" || key === "Wind Direction (deg)" || key === "Wind Speed (kmh)") && dataType === "number") {
-                cellContent = cellValue + ' ✔️'; 
+                cellContent = cellValue + ' ✅'; 
               }
                // if the data type doesn't match
                else  {
@@ -236,7 +238,12 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   };
 
   document.getElementById("ForReset").onclick = async function () {
+
+    document.getElementById("display_forcsv_data").style.display = 'none';
     
+    document.getElementById("ForUpload").style.display = 'none';
+
+    document.getElementById("ForReset").style.display = 'none';
 
   };
 
@@ -261,12 +268,20 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   
     document.getElementById("ActTemButton").style.color = "#090706";
 
-    var acttemtime = new Date(actdate.getTime() + 12 * 60 * 60 * 1000);
+    var acttemtime = new Date(actdate.getTime() + 60 * 60 * 1000);
   
     var csv = 'Time,Load (kW),Pressure_kpa,Cloud Cover (%),Humidity (%),Temperature (C),Wind Direction (deg),Wind Speed (kmh)\n';
   
     for (var i = 0; i < 24; i++) {
-      var acttime = acttemtime.toISOString().slice(0, 19).replace("T", " ");
+      var year = acttemtime.getFullYear();
+      var month = String(acttemtime.getMonth() + 1).padStart(2, '0'); // Add 1 because getMonth() returns 0-indexed month
+      var day = String(acttemtime.getDate()).padStart(2, '0');
+      var hours = String(acttemtime.getHours()).padStart(2, '0');
+      var minutes = String(acttemtime.getMinutes()).padStart(2, '0');
+      var seconds = String(acttemtime.getSeconds()).padStart(2, '0');
+  
+      var acttime = day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds;
+  
       csv += acttime + ",0,0,0,0,0,0,0\n";
   
       // Increment the time by 1 hour for the next row
@@ -357,11 +372,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
                   // Convert specific columns to their desired data types
                   if (key === "Time") {
-                    // Validate the date format using a regular expression
-                    var dateRegex = /^\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}$/;
-                    if (!dateRegex.test(cellValue)) {
-                      rowData[key] = cellValue
-                    }
+
                     // Parse the date string manually
                     var dateParts = cellValue.split(" ");
                     var datePart = dateParts[0].split("/");
@@ -437,11 +448,11 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
                   actupload = 1;
               }
               else{
-                cellContent = cellValue + ' ✔️'; // checks if Time is a Date
+                cellContent = cellValue + ' ✅'; // checks if Time is a Date
               }
               }
                else if ((key === "Load (kW)" || key === "Pressure_kpa" || key === "Cloud Cover (%)" || key === "Humidity (%)" || key === "Temperature (C)" || key === "Wind Direction (deg)" || key === "Wind Speed (kmh)") && dataType === "number") {
-                cellContent = cellValue + ' ✔️'; // checks if Temperature (C) is a number
+                cellContent = cellValue + ' ✅'; // checks if Temperature (C) is a number
               }
                
                // if the data type doesn't match
@@ -460,5 +471,20 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
           table.innerHTML = 'There is no data in CSV';
         }
       }
+
+  };
+
+  document.getElementById("ActUpload").onclick = async function () {
+
+
+  };
+
+  document.getElementById("ActReset").onclick = async function () {
+
+    document.getElementById("display_actcsv_data").style.display = 'none';
+    
+    document.getElementById("ActUpload").style.display = 'none';
+
+    document.getElementById("ActReset").style.display = 'none';
 
   };
