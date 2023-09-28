@@ -51,58 +51,6 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
     hiddenElement.download = 'Forecast-Upload-Template.csv';
     hiddenElement.click();
   };
-
-  
-  document.getElementById("ForTemButton").onclick = async function () {
-  
-    document.getElementById("ForTemButton").style.color = "#090706";
-
-    var fortemtime = new Date(fordate.getTime() + 12 * 60 * 60 * 1000);
-  
-    var csv = 'Time,Temperature (C),Pressure_kpa,Cloud Cover (%),Wind Direction (deg),Wind Speed (kmh)\n';
-  
-    for (var i = 0; i < 24; i++) {
-      var fortime = fortemtime.toISOString().slice(0, 19).replace("T", " ");
-      csv += fortime + ",0,0,0,0,0\n";
-  
-      // Increment the time by 1 hour for the next row
-      fortemtime.setTime(fortemtime.getTime() + 60 * 60 * 1000);
-    }
-  
-    var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-    hiddenElement.target = '_blank';
-    
-    hiddenElement.download = 'Forecast-Upload-Template.csv';
-    hiddenElement.click();
-  };
-  
-  document.getElementById("ActTemButton").onclick = async function () {
-  
-    document.getElementById("ActTemButton").style.color = "#090706";
-
-    var acttemtime = new Date(actdate.getTime() + 12 * 60 * 60 * 1000);
-  
-    var csv = 'Time,Load (kW),Pressure_kpa,Cloud Cover (%),Humidity (%),Temperature (C),Wind Direction (deg),Wind Speed (kmh)\n';
-  
-    for (var i = 0; i < 24; i++) {
-      var acttime = acttemtime.toISOString().slice(0, 19).replace("T", " ");
-      csv += acttime + ",0,0,0,0,0,0,0\n";
-  
-      // Increment the time by 1 hour for the next row
-      acttemtime.setTime(acttemtime.getTime() + 60 * 60 * 1000);
-    }
-
-    var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-    hiddenElement.target = '_blank';
-  
-    //provide the name for the CSV file to be downloaded  
-    hiddenElement.download = 'Actual-Upload-Template.csv';
-    hiddenElement.click();
-  
-  };
-  
   
   document.getElementById("ForCheck").onclick = async function () {
     
@@ -201,7 +149,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
                       rowData[key] = cellValue
                     }
                   }
-                  else if (key === "Load" || key === "Temperature (C)" || key === "Pressure_kpa" || key === "Cloud Cover (%)" || key === "Wind Direction (deg)" || key === "Wind Speed (kmh)") {
+                  else if (key === "Temperature (C)" || key === "Pressure_kpa" || key === "Cloud Cover (%)" || key === "Wind Direction (deg)" || key === "Wind Speed (kmh)") {
                     // Attempt to parse these columns as numbers
                     rowData[key] = parseFloat(cellValue);
                   } 
@@ -260,22 +208,9 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
                 cellContent = cellValue + ' ✔️'; // checks if Time is a Date
               }
               }
-               else if (key === "Temperature (C)" && dataType === "number") {
-                cellContent = cellValue + ' ✔️'; // checks if Temperature (C) is a number
+               else if ((key === "Temperature (C)" || key === "Pressure_kpa" || key === "Cloud Cover (%)" || key === "Wind Direction (deg)" || key === "Wind Speed (kmh)") && dataType === "number") {
+                cellContent = cellValue + ' ✔️'; 
               }
-              else if (key === "Pressure_kpa" && dataType === "number") {
-                cellContent = cellValue + ' ✔️'; // checks if Pressure_kpa is a number
-              }
-              else if (key === "Cloud Cover (%)" && dataType === "number") {
-                cellContent = cellValue + ' ✔️'; // checks if Cloud Cover (%) is a number
-              }
-              else if (key === "Wind Direction (deg)" && dataType === "number") {
-                cellContent = cellValue + ' ✔️'; // checks if Wind Direction (deg) is a number
-              }
-              else if (key === "Wind Speed (kmh)" && dataType === "number") {
-                cellContent = cellValue + ' ✔️'; // checks if Wind Speed (kmh) is a number
-              }
-               
                // if the data type doesn't match
                else  {
                 cellContent = cellValue + ' ❌'; 
@@ -352,20 +287,20 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   document.getElementById("ActCheck").onclick = async function () {
     
     //Checks if a file has been uploaded
-    var forfiles = document.getElementById('forfile_upload').files;
-    if (forfiles.length == 0) {
+    var actfiles = document.getElementById('actfile_upload').files;
+    if (actfiles.length == 0) {
       alert("Please choose a valid csv file");
       return;
     }
-    var filename = forfiles[0].name;
+    var filename = actfiles[0].name;
     var extension = filename.substring(filename.lastIndexOf(".")).toUpperCase();
 
     //Checks if a file is a csv and calls csvFileToJSON
     if (extension == '.CSV') {
-      csvFileToJSON(forfiles[0]);
-      document.getElementById("display_forcsv_data").style.display = 'block';
-      document.getElementById("ForUpload").style.display = 'block';
-      document.getElementById("ForReset").style.display = 'block';
+      csvFileToJSON(actfiles[0]);
+      document.getElementById("display_actcsv_data").style.display = 'block';
+      document.getElementById("ActUpload").style.display = 'block';
+      document.getElementById("ActReset").style.display = 'block';
     } 
     
     //Tells you wrong file type uploaded
@@ -389,22 +324,22 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
             
             if (i === 0) {
               // Convert the header row cells to lowercase for comparison
-              var forheaderlower = cells.map(function (cell) {
+              var actheaderlower = cells.map(function (cell) {
                 return cell.trim().toLowerCase();
               });
     
               // Validate the header order (case-insensitive)
-              var forwrongheader = false;
-              for (var j = 0; j < forheaders.length; j++) {
-                if (forheaderlower[j] !== forheaders[j].toLowerCase()) {
-                  forwrongheader = true;
+              var actwrongheader = false;
+              for (var j = 0; j < actheaders.length; j++) {
+                if (actheaderlower[j] !== actheaders[j].toLowerCase()) {
+                  actwrongheader = true;
                   break;
                 }
               }
     
               // If header doesn't match exit function
-              if (forwrongheader) {
-                console.error("Column headers do not match the expected format. Please download and use the template.");
+              if (actwrongheader) {
+                console.error(actheaderlower[j] + "t" + actheaders[j] + "Column headers do not match the expected format. Please download and use the template.");
                 return;
               }
     
@@ -446,7 +381,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
                       rowData[key] = cellValue
                     }
                   }
-                  else if (key === "Load" || key === "Temperature (C)" || key === "Pressure_kpa" || key === "Cloud Cover (%)" || key === "Wind Direction (deg)" || key === "Wind Speed (kmh)") {
+                  else if (key === "Load (kW)" || key === "Pressure_kpa" || key === "Cloud Cover (%)" || key === "Humidity (%)" || key === "Temperature (C)" || key === "Wind Direction (deg)" || key === "Wind Speed (kmh)") {
                     // Attempt to parse these columns as numbers
                     rowData[key] = parseFloat(cellValue);
                   } 
@@ -474,11 +409,11 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
     }
   
     function displayJsonToHtmlTable(jsonData) {
-        var table = document.getElementById("display_forcsv_data");
-        var forcomparetime = new Date(fordate);
-        forupload = 0;
+        var table = document.getElementById("display_actcsv_data");
+        var actcomparetime = new Date(actdate);
+        actupload = 0;
         if (jsonData.length > 0) {
-          var headers = forheaders;
+          var headers = actheaders;
           var htmlHeader = '<thead><tr>';
           for (var i = 0; i < headers.length; i++) {
             htmlHeader += '<th>' + headers[i] + '</th>';
@@ -487,7 +422,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
           var htmlBody = '<tbody>';
           for (var i = 0; i < jsonData.length; i++) {
             var row = jsonData[i];
-            forcomparetime.setTime(forcomparetime.getTime() + 60 * 60 * 1000);
+            actcomparetime.setTime(actcomparetime.getTime() + 60 * 60 * 1000);
             htmlBody += '<tr>';
             for (var j = 0; j < headers.length; j++) {
               var key = headers[j];
@@ -497,34 +432,22 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
               
               // Checks if the data type matches the required format
               if (key === "Time" && cellValue instanceof Date && !isNaN(cellValue.getTime())) {
-                if (cellValue.getTime() !== forcomparetime.getTime() || i > 23) {
+                if (cellValue.getTime() !== actcomparetime.getTime() || i > 23) {
                   cellContent = cellValue + ' ❌'; // Display a cross (❌)
-                  forupload = 1;
+                  actupload = 1;
               }
               else{
                 cellContent = cellValue + ' ✔️'; // checks if Time is a Date
               }
               }
-               else if (key === "Temperature (C)" && dataType === "number") {
+               else if ((key === "Load (kW)" || key === "Pressure_kpa" || key === "Cloud Cover (%)" || key === "Humidity (%)" || key === "Temperature (C)" || key === "Wind Direction (deg)" || key === "Wind Speed (kmh)") && dataType === "number") {
                 cellContent = cellValue + ' ✔️'; // checks if Temperature (C) is a number
-              }
-              else if (key === "Pressure_kpa" && dataType === "number") {
-                cellContent = cellValue + ' ✔️'; // checks if Pressure_kpa is a number
-              }
-              else if (key === "Cloud Cover (%)" && dataType === "number") {
-                cellContent = cellValue + ' ✔️'; // checks if Cloud Cover (%) is a number
-              }
-              else if (key === "Wind Direction (deg)" && dataType === "number") {
-                cellContent = cellValue + ' ✔️'; // checks if Wind Direction (deg) is a number
-              }
-              else if (key === "Wind Speed (kmh)" && dataType === "number") {
-                cellContent = cellValue + ' ✔️'; // checks if Wind Speed (kmh) is a number
               }
                
                // if the data type doesn't match
                else  {
                 cellContent = cellValue + ' ❌'; 
-                forupload = 1;
+                actupload = 1;
               }
               
               htmlBody += '<td>' + cellContent + '</td>';
