@@ -2,9 +2,13 @@ let actdate = new Date("2022-03-24 23:00:00")
 
 let fordate = new Date("2022-03-24 23:00:00")
 
-let forupload = 0;
+let foruploadcheck = 0;
 
-let actupload = 0;
+let forlencheck = 1;
+
+let actuploadcheck = 0;
+
+let actlencheck = 1;
 
 var forheaders = ["Time","Temperature (C)","Pressure_kpa","Cloud Cover (%)","Wind Direction (deg)","Wind Speed (kmh)"];
 
@@ -21,6 +25,10 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
     document.getElementById("ActForm").style.display = 'none';
 
     document.getElementById("display_forcsv_data").style.display = 'none';
+
+    document.getElementById("ForUpload").style.display = 'none';
+
+    document.getElementById("ForReset").style.display = 'none';
   
   };
 
@@ -111,7 +119,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
     
               // If header doesn't match exit function
               if (forwrongheader) {
-                console.error("Column headers do not match the expected format. Please download and use the template.");
+                alert("Column headers do not match the expected format. Please download and use the template.");
                 return;
               }
     
@@ -179,7 +187,8 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
     function displayJsonToHtmlTable(jsonData) {
         var table = document.getElementById("display_forcsv_data");
         var forcomparetime = new Date(fordate);
-        forupload = 0;
+        foruploadcheck = 0;
+        forlencheck = 1;
         if (jsonData.length > 0) {
           var headers = forheaders;
           var htmlHeader = '<thead><tr>';
@@ -188,6 +197,9 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
           }
           htmlHeader += '<tr></thead>';
           var htmlBody = '<tbody>';
+          if (jsonData.length === 23) {
+            forlencheck = 0;
+          }
           for (var i = 0; i < jsonData.length; i++) {
             var row = jsonData[i];
             forcomparetime.setTime(forcomparetime.getTime() + 60 * 60 * 1000);
@@ -204,19 +216,32 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
                 console.log(forcomparetime)
                 if (cellValue.getTime() !== forcomparetime.getTime() || i > 23) {
                   cellContent = cellValue + ' ❌'; // Display a cross (❌)
-                  forupload = 1;
+                  foruploadcheck = 1;
               }
               else{
                 cellContent = cellValue + ' ✅'; // checks if Time is a Date
               }
               }
-               else if ((key === "Temperature (C)" || key === "Pressure_kpa" || key === "Cloud Cover (%)" || key === "Wind Direction (deg)" || key === "Wind Speed (kmh)") && dataType === "number") {
+               else if ((key === "Temperature (C)" || key === "Pressure_kpa") && dataType === "number") {
                 cellContent = cellValue + ' ✅'; 
               }
+
+              else if ((key === "Wind Direction (deg)") && dataType === "number" && cellValue <= 360 && cellValue >= 0) {
+                cellContent = cellValue + ' ✅'; // checks if Temperature (C) is a number
+              }
+
+              else if ((key === "Cloud Cover (%)") && dataType === "number" && cellValue <= 100 && cellValue >= 0) {
+                cellContent = cellValue + ' ✅'; // checks if Temperature (C) is a number
+              }
+
+              else if ((key === "Wind Speed (kmh)") && dataType === "number" && cellValue >= 0) {
+                cellContent = cellValue + ' ✅'; // checks if Temperature (C) is a number
+              }
+              
                // if the data type doesn't match
                else  {
                 cellContent = cellValue + ' ❌'; 
-                forupload = 1;
+                foruploadcheck = 1;
               }
               
               htmlBody += '<td>' + cellContent + '</td>';
@@ -234,6 +259,17 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
   document.getElementById("ForUpload").onclick = async function () {
 
+    if (foruploadcheck === 1) {
+      alert("There is an error in the data, please fix it and reupload the data.");
+      return;
+    }
+    else if (forlencheck === 1) {
+      alert("There isn't 24 hours of data. Please make sure you're uploading a days worth of data.'");
+      return;
+    }
+    else{
+
+    }
 
   };
 
@@ -354,7 +390,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
     
               // If header doesn't match exit function
               if (actwrongheader) {
-                console.error(actheaderlower[j] + "t" + actheaders[j] + "Column headers do not match the expected format. Please download and use the template.");
+                alert("Column headers do not match the expected format. Please download and use the template.");
                 return;
               }
     
@@ -422,7 +458,8 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
     function displayJsonToHtmlTable(jsonData) {
         var table = document.getElementById("display_actcsv_data");
         var actcomparetime = new Date(actdate);
-        actupload = 0;
+        actuploadcheck = 0;
+        actlencheck = 1;
         if (jsonData.length > 0) {
           var headers = actheaders;
           var htmlHeader = '<thead><tr>';
@@ -431,6 +468,9 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
           }
           htmlHeader += '<tr></thead>';
           var htmlBody = '<tbody>';
+          if (jsonData.length === 23) {
+            actlencheck = 0;
+          }
           for (var i = 0; i < jsonData.length; i++) {
             var row = jsonData[i];
             actcomparetime.setTime(actcomparetime.getTime() + 60 * 60 * 1000);
@@ -445,20 +485,32 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
               if (key === "Time" && cellValue instanceof Date && !isNaN(cellValue.getTime())) {
                 if (cellValue.getTime() !== actcomparetime.getTime() || i > 23) {
                   cellContent = cellValue + ' ❌'; // Display a cross (❌)
-                  actupload = 1;
+                  actuploadcheck = 1;
               }
               else{
                 cellContent = cellValue + ' ✅'; // checks if Time is a Date
               }
               }
-               else if ((key === "Load (kW)" || key === "Pressure_kpa" || key === "Cloud Cover (%)" || key === "Humidity (%)" || key === "Temperature (C)" || key === "Wind Direction (deg)" || key === "Wind Speed (kmh)") && dataType === "number") {
+               else if ((key === "Pressure_kpa" || key === "Temperature (C)") && dataType === "number") {
+                cellContent = cellValue + ' ✅'; // checks if Temperature (C) is a number
+              }
+
+              else if ((key === "Cloud Cover (%)" || key === "Humidity (%)") && dataType === "number" && cellValue <= 100 && cellValue >= 0) {
+                cellContent = cellValue + ' ✅'; // checks if Temperature (C) is a number
+              }
+
+              else if ((key === "Wind Direction (deg)") && dataType === "number" && cellValue <= 360 && cellValue >= 0) {
+                cellContent = cellValue + ' ✅'; // checks if Temperature (C) is a number
+              }
+
+              else if ((key === "Load (kW)" || key === "Wind Speed (kmh)") && dataType === "number" && cellValue >= 0) {
                 cellContent = cellValue + ' ✅'; // checks if Temperature (C) is a number
               }
                
                // if the data type doesn't match
                else  {
                 cellContent = cellValue + ' ❌'; 
-                actupload = 1;
+                actuploadcheck = 1;
               }
               
               htmlBody += '<td>' + cellContent + '</td>';
@@ -475,6 +527,18 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   };
 
   document.getElementById("ActUpload").onclick = async function () {
+
+    if (actuploadcheck === 1) {
+      alert("There is an error in the data, please fix it and reupload the data.");
+      return;
+    }
+    else if (actlencheck === 1) {
+      alert("There isn't 24 hours of data. Please make sure you're uploading a days worth of data.'");
+      return;
+    }
+    else{
+
+    }
 
 
   };
