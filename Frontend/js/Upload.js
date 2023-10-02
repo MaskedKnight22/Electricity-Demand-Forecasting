@@ -16,9 +16,9 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
   document.getElementById("ForButton").onclick = async function () {
 
-    document.getElementById("ForButton").style.color = "#fb8362";
+    document.getElementById("ForButton").style.color = "#ffe03f";
   
-    document.getElementById("ActButton").style.color = "#090706";
+    document.getElementById("ActButton").style.color = "#ffffff";
   
     document.getElementById("ForForm").style.display = 'block';
   
@@ -34,7 +34,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
     document.getElementById("ForTemButton").onclick = async function () {
   
-    document.getElementById("ForTemButton").style.color = "#090706";
+    document.getElementById("ForTemButton").style.color = "#ffffff";
 
     var fortemtime = new Date(fordate.getTime() + 60 * 60 * 1000);
   
@@ -285,9 +285,9 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
   document.getElementById("ActButton").onclick = async function () {
   
-    document.getElementById("ForButton").style.color = "#090706";
+    document.getElementById("ForButton").style.color = "#ffffff";
   
-    document.getElementById("ActButton").style.color = "#fb8362";
+    document.getElementById("ActButton").style.color = "#ffe03f";
   
     document.getElementById("ForForm").style.display = 'none';
   
@@ -302,7 +302,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   
   document.getElementById("ActTemButton").onclick = async function () {
   
-    document.getElementById("ActTemButton").style.color = "#090706";
+    document.getElementById("ActTemButton").style.color = "#ffffff";
 
     var acttemtime = new Date(actdate.getTime() + 60 * 60 * 1000);
   
@@ -552,3 +552,15 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
     document.getElementById("ActReset").style.display = 'none';
 
   };
+
+  document.getElementById('forfile_upload').addEventListener('change', function(e) {
+    var fileName = e.target.files[0].name; // get the file name
+    var label = this.previousElementSibling; // get the label
+    label.textContent = fileName; // set the file name as label text
+});
+
+  document.getElementById('actfile_upload').addEventListener('change', function(e) {
+    var fileName = e.target.files[0].name; // get the file name
+    var label = this.previousElementSibling; // get the label
+    label.textContent = fileName; // set the file name as label text
+});

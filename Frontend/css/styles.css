@@ -87,13 +87,6 @@ canvas {
     height: auto;
 }
 
-.uploadcontainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 3em 15em;
-}
-
 /* Hero */
 .hero {
     font-size: 1.5em;

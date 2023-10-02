@@ -26,48 +26,69 @@
     
     <!-- Hero -->
     <div class="hero">
-        <h1>Forecast History</h1>
+        <h1>Upload</h1>
     </div>
     
-    <div class="uploadcontainer">
-    <button type="button" id="ForButton">Forecast Upload</button>
-    <button type="button" id="ActButton">Actual Upload</button>
-    <form id="ForForm">
-        <table>
-            <H1>Requirements</H1>
-            <p>-Upload must be 1 day, 24 hours at a time</p>
-            <p>-The Time column values must be in the format DD/MM/YYYY HH:MM:SS</p>
-            <p>-All other columns must be numeric</p>
-            <p>-Cloud Cover must be between 0-100</p>
-            <p>-Wind Direction must be between 0-360</p>
-            <input type="file" id="forfile_upload" accept="csv" />
-            <button type="button" id="ForCheck">Check Forecast Data</button>
-            <table id="display_forcsv_data" border="1" style="display:none;"></table>
-            <button type="button" id="ForUpload" style="display:none;">Upload</button>
-            <button type="button" id="ForReset" style="display:none;">Reset</button>
-            <h1>Template</h1>
-            <p>Click the button below to be provided with an upload template for Forecasted Data</p>
-            <button type="button" id="ForTemButton">Forecast Template</button>
-        </table>
-    </form>
-    <form id="ActForm" style="display:none;">
-        <table>
-            <H1>Requirements</H1>
-            <p>-Upload must be 1 day, 24 hours at a time</p>
-            <p>-The Time column values must be in the format DD/MM/YYYY HH:MM:SS</p>
-            <p>-All other columns must be numeric</p>
-            <p>-Cloud Cover and Humidity must be between 0-100</p>
-            <p>-Wind Direction must be between 0-360</p>
-            <input type="file" id="actfile_upload" accept="csv"/>
-            <button type="button" id="ActCheck">Check Actual Data</button>
-            <table id="display_actcsv_data" border="1" ></table>
-            <button type="button" id="ActUpload" style="display:none;">Upload</button>
-            <button type="button" id="ActReset" style="display:none;">Reset</button>
-            <h1>Template</h1>
-            <p>Click the button below to be provided with an upload template for Actual Data</p>
-            <button type="button" id="ActTemButton">Actual Template</button>
-        </table>
-    </form>
+    <div class="intro">
+        <!-- <button type="button" id="ForButton">Forecast Upload</button>
+        <button type="button" id="ActButton">Actual Upload</button> -->
+        <div class="tab-container">
+            <a class="button" id="ForButton">Forecast Upload</a>
+            <a class="button" id="ActButton">Actual Upload</a>
+        </div>
+        <form id="ForForm">
+            <table>
+                <h2>Requirements</h2>
+                <div class="no-margin-padding">
+                    <p>- Upload must be 1 day, 24 hours at a time</p>
+                    <p>- The Time column values must be in the format DD/MM/YYYY HH:MM:SS</p>
+                    <p>- All other columns must be numeric</p>
+                    <p>- Cloud Cover must be between 0-100</p>
+                    <p>- Wind Direction must be between 0-360</p>
+                </div>
+                <div class="button-container">
+                    <label for="forfile_upload" class="button2 long">Choose File</label>
+                    <input type="file" id="forfile_upload" accept="csv" style="display:none;" />
+                    <a class="button2" id="ForCheck">Check Forecast Data</a>
+                </div>
+                <table id="display_forcsv_data" border="1" style="display:none;"></table>
+                <div class="button-container">
+                    <a class="button2 short" id="ForUpload" style="display:none;">Upload</a>
+                    <a class="button2 short" id="ForReset" style="display:none;">Reset</a>
+                </div>
+                <h2>Template</h2>
+                <p class="no-margin-padding">Click the button below to be provided with an upload template for Forecasted Data</p>
+                <div class="whitespace"></div>
+                <a class="button2" id="ForTemButton">Forecast Template</a>
+                
+            </table>
+        </form>
+        <form id="ActForm" style="display:none;">
+            <table class="no-margin-padding">
+                <h2>Requirements</h2>
+                <div class="no-margin-padding">
+                    <p>- Upload must be 1 day, 24 hours at a time</p>
+                    <p>- The Time column values must be in the format DD/MM/YYYY HH:MM:SS</p>
+                    <p>- All other columns must be numeric</p>
+                    <p>- Cloud Cover and Humidity must be between 0-100</p>
+                    <p>- Wind Direction must be between 0-360</p>
+                </div>
+                <div class="button-container">
+                    <label for="actfile_upload" class="button2 long">Choose File</label>
+                    <input type="file" id="actfile_upload" accept="csv" style="display:none;" />
+                    <a class="button2" id="ActCheck">Check Actual Data</a>
+                </div>
+                <table id="display_actcsv_data" border="1" style="display:none;"></table>
+                <div class="button-container">
+                    <a class="button2 short" id="ActUpload" style="display:none;">Upload</a>
+                    <a class="button2 short" id="ActReset" style="display:none;">Reset</a>
+                </div>
+                <h2>Template</h2>
+                <p class="no-margin-padding">Click the button below to be provided with an upload template for Actual Data</p>
+                <div class="whitespace"></div>
+                <a class="button2" id="ActTemButton">Actual Template</a>
+            </table>
+        </form>
     </div>
     <footer>
         <p><b>This website is created by</b>: Group 15 - Anurag, Ethan, Jonathon, Nathan</p>
@@ -75,6 +96,5 @@
     
     <script src="Frontend/js/Upload.js"></script>  
 
-    
 </body>
 </html>
