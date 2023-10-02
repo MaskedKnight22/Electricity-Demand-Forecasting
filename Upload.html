@@ -35,7 +35,11 @@
     <form id="ForForm">
         <table>
             <H1>Requirements</H1>
-            <p>-Upload must be in 24 hour blocks</p>
+            <p>-Upload must be 1 day, 24 hours at a time</p>
+            <p>-The Time column values must be in the format DD/MM/YYYY HH:MM:SS</p>
+            <p>-All other columns must be numeric</p>
+            <p>-Cloud Cover must be between 0-100</p>
+            <p>-Wind Direction must be between 0-360</p>
             <input type="file" id="forfile_upload" accept="csv" />
             <button type="button" id="ForCheck">Check Forecast Data</button>
             <table id="display_forcsv_data" border="1" style="display:none;"></table>
@@ -49,7 +53,11 @@
     <form id="ActForm" style="display:none;">
         <table>
             <H1>Requirements</H1>
-            <p>-Upload must be in 24 hour blocks</p>
+            <p>-Upload must be 1 day, 24 hours at a time</p>
+            <p>-The Time column values must be in the format DD/MM/YYYY HH:MM:SS</p>
+            <p>-All other columns must be numeric</p>
+            <p>-Cloud Cover and Humidity must be between 0-100</p>
+            <p>-Wind Direction must be between 0-360</p>
             <input type="file" id="actfile_upload" accept="csv"/>
             <button type="button" id="ActCheck">Check Actual Data</button>
             <table id="display_actcsv_data" border="1" ></table>
