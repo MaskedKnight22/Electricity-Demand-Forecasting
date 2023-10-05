@@ -10,15 +10,19 @@ let actuploadcheck = 0;
 
 let actlencheck = 1;
 
+let actcsvString = ''
+
+let forcsvString = ''
+
 var forheaders = ["Time","Temperature (C)","Pressure_kpa","Cloud Cover (%)","Wind Direction (deg)","Wind Speed (kmh)"];
 
 var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity (%)","Temperature (C)","Wind Direction (deg)","Wind Speed (kmh)"];
 
   document.getElementById("ForButton").onclick = async function () {
 
-    document.getElementById("ForButton").style.color = "#ffe03f";
+    document.getElementById("ForButton").style.color = "#fb8362";
   
-    document.getElementById("ActButton").style.color = "#ffffff";
+    document.getElementById("ActButton").style.color = "#090706";
   
     document.getElementById("ForForm").style.display = 'block';
   
@@ -34,7 +38,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
     document.getElementById("ForTemButton").onclick = async function () {
   
-    document.getElementById("ForTemButton").style.color = "#ffffff";
+    document.getElementById("ForTemButton").style.color = "#090706";
 
     var fortemtime = new Date(fordate.getTime() + 60 * 60 * 1000);
   
@@ -77,6 +81,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
     //Checks if a file is a csv and calls csvFileToJSON
     if (extension == '.CSV') {
+      csvFileToSTR(forfiles[0]);
       csvFileToJSON(forfiles[0]);
       document.getElementById("display_forcsv_data").style.display = 'block';
       document.getElementById("ForUpload").style.display = 'block';
@@ -87,6 +92,28 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
     else {
       alert("Please select a valid csv file.");
     }
+
+    function csvFileToSTR(file) {
+      try {
+        var reader = new FileReader();
+        reader.readAsBinaryString(file);
+        reader.onload = function (e) {
+
+          var rows = e.target.result.trim().split("\r\n");
+
+          forcsvString = ''
+
+          for (var i = 1; i < rows.length; i++){
+            const rowAdded = rows[i] + (i === rows.length - 1 ? "" : "\n")
+            forcsvString += rowAdded
+
+          }
+        }
+      }
+      catch (e) {
+        console.error(e);
+      }
+    };
   
     function csvFileToJSON(file) {
       try {
@@ -197,7 +224,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
           }
           htmlHeader += '<tr></thead>';
           var htmlBody = '<tbody>';
-          if (jsonData.length === 23) {
+          if (jsonData.length - 1 === 23) {
             forlencheck = 0;
           }
           for (var i = 0; i < jsonData.length; i++) {
@@ -212,8 +239,6 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
               // Checks if the data type matches the required format
               if (key === "Time" && cellValue instanceof Date && !isNaN(cellValue.getTime())) {
-                console.log(cellValue)
-                console.log(forcomparetime)
                 if (cellValue.getTime() !== forcomparetime.getTime() || i > 23) {
                   cellContent = cellValue + ' ❌'; // Display a cross (❌)
                   foruploadcheck = 1;
@@ -269,6 +294,8 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
     }
     else{
 
+      console.log(forcsvString)
+
     }
 
   };
@@ -285,9 +312,9 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
   document.getElementById("ActButton").onclick = async function () {
   
-    document.getElementById("ForButton").style.color = "#ffffff";
+    document.getElementById("ForButton").style.color = "#090706";
   
-    document.getElementById("ActButton").style.color = "#ffe03f";
+    document.getElementById("ActButton").style.color = "#fb8362";
   
     document.getElementById("ForForm").style.display = 'none';
   
@@ -302,7 +329,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   
   document.getElementById("ActTemButton").onclick = async function () {
   
-    document.getElementById("ActTemButton").style.color = "#ffffff";
+    document.getElementById("ActTemButton").style.color = "#090706";
 
     var acttemtime = new Date(actdate.getTime() + 60 * 60 * 1000);
   
@@ -348,6 +375,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
     //Checks if a file is a csv and calls csvFileToJSON
     if (extension == '.CSV') {
+      csvFileToSTR(actfiles[0]);
       csvFileToJSON(actfiles[0]);
       document.getElementById("display_actcsv_data").style.display = 'block';
       document.getElementById("ActUpload").style.display = 'block';
@@ -359,6 +387,28 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
       alert("Please select a valid csv file.");
     }
   
+    function csvFileToSTR(file) {
+      try {
+        var reader = new FileReader();
+        reader.readAsBinaryString(file);
+        reader.onload = function (e) {
+
+          var rows = e.target.result.trim().split("\r\n");
+
+          actcsvString = ''
+
+          for (var i = 1; i < rows.length; i++){
+            const rowAdded = rows[i] + (i === rows.length - 1 ? "" : "\n")
+            actcsvString += rowAdded
+
+          }
+        }
+      }
+      catch (e) {
+        console.error(e);
+      }
+    };
+
     function csvFileToJSON(file) {
       try {
         var reader = new FileReader();
@@ -468,7 +518,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
           }
           htmlHeader += '<tr></thead>';
           var htmlBody = '<tbody>';
-          if (jsonData.length === 23) {
+          if (jsonData.length - 1 === 23) {
             actlencheck = 0;
           }
           for (var i = 0; i < jsonData.length; i++) {
@@ -537,6 +587,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
       return;
     }
     else{
+      console.log(actcsvString)
 
     }
 
@@ -552,15 +603,3 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
     document.getElementById("ActReset").style.display = 'none';
 
   };
-
-  document.getElementById('forfile_upload').addEventListener('change', function(e) {
-    var fileName = e.target.files[0].name; // get the file name
-    var label = this.previousElementSibling; // get the label
-    label.textContent = fileName; // set the file name as label text
-});
-
-  document.getElementById('actfile_upload').addEventListener('change', function(e) {
-    var fileName = e.target.files[0].name; // get the file name
-    var label = this.previousElementSibling; // get the label
-    label.textContent = fileName; // set the file name as label text
-});
