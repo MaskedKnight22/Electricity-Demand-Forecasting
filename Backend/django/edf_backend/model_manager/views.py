@@ -8,6 +8,7 @@ from sklearn.preprocessing import MinMaxScaler
 from django.views.decorators.csrf import csrf_exempt
 
 
+
 """
 Delete the following code (was done only for testing the functions):
 """
@@ -27,6 +28,7 @@ BUCKET = 'electricitydemandforecasting'
 # Set up logging
 logging.basicConfig(level=logging.ERROR)
 
+# Use Singleton to make sure there is only ever 1 instance of the model at any time
 class SingletonType(type):
     _instances = {}
 
@@ -49,7 +51,6 @@ def get_predictions(request):
     # 1. Load the current model
     model_loader = ModelLoader()
     model = model_loader.load_model()
-
 
     # 2. Initiate the S3 client and load persistent min-max values
     s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS, aws_secret_access_key=AWS_SECRET_ACCESS)

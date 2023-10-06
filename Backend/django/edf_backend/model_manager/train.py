@@ -7,7 +7,6 @@ from prophet import Prophet
 from smart_open import smart_open
 from sklearn.preprocessing import MinMaxScaler
 
-
 # AWS Credentials
 AWS_ACCESS = 'AKIA3OQDEGY5IF2353GU'
 AWS_SECRET_ACCESS = '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'
