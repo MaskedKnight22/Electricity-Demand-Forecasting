@@ -82,6 +82,13 @@ canvas {
     color: var(--clr-accent2);
     text-shadow: -3.7px 2.8px 1px var(--clr-accent4);
 }
+.chart h2{
+    margin: 1em 0 0 0;
+    padding: 0 0 0.3em;
+    font-size: 24px;
+    color: var(--clr-accent1);
+    text-shadow: -2.2px 2.2px 1px var(--clr-accent3);
+}
 .chart img {
     max-width: 100%;
     height: auto;
