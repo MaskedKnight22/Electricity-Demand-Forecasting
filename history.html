@@ -7,7 +7,7 @@
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- CSS file -->
-    <link rel="stylesheet" href="Frontend/css/styles.css">
+    <link rel="stylesheet" href="Frontend/css/History.css">
 </head>
 <body>
     <!-- Desktop Nav -->
@@ -28,6 +28,32 @@
     <div class="hero">
         <h1>Forecast History</h1>
     </div>
+
+    
+    <div class="intro">
+        <!-- <button type="button" id="ForButton">Forecast Upload</button>
+        <button type="button" id="ActButton">Actual Upload</button> -->
+        <div class="tab-container">
+            <a class="button" id="ForButton">Forecast Upload</a>
+            <a class="button" id="ActButton">Actual Upload</a>
+        </div>
+        <form id="ForForm">
+            <table>
+                <table id="display_forcsv_data" border="1" style="display:none;"></table>                
+            </table>
+        </form>
+        <form id="ActForm" style="display:none;">
+            <table class="no-margin-padding">
+                <table id="display_actcsv_data" border="1" style="display:none;"></table>
+            </table>
+        </form>
+    </div>
+    <footer>
+        <p><b>This website is created by</b>: Group 15 - Anurag, Ethan, Jonathon, Nathan</p>
+    </footer>
+    
+    <script src="Frontend/js/History.js"></script>  
+
 
     
 </body>
