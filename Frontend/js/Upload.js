@@ -681,7 +681,7 @@ async function latestfordate() {
 
 
 async function latestactdate() {
-  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/actuals_not_norm.csv";
+  const apiUrl = "https://9sz3kobq0h.execute-api.ap-southeast-2.amazonaws.com/s3-updated-get/electricitydemandforecasting/Data/actuals_not_norm.csv";
 
   try {
     const response = await fetch(apiUrl);
