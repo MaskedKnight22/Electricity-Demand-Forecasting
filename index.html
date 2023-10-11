@@ -31,6 +31,11 @@
 
     <!-- Chart -->
     <div class="chart">
+        <div class="tab-container">
+            <a class="button" id="fetchPredictions">Refresh Chart</a>
+        </div>
+        <div id="prophetData"></div>
+        <div id="lightgbmData"></div>
         <canvas id="myChart"></canvas>
     </div>
 
@@ -52,9 +57,13 @@
         <p><b>This website is created by</b>: Group 15 - Anurag, Ethan, Jonathon, Nathan</p>
     </footer>
 
+    <!-- Include Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <!-- Import Chart.js and D3.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <!-- Include Chart.js adapter for Moment -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
     
     <!-- Custom JS -->
     <script src="Frontend/js/script.js"></script>

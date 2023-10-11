@@ -97,6 +97,7 @@ footer {
     height: 25px;
     background: var(--clr-accent1);
     color: white;
+    border-radius: 0.5em;
     text-transform: uppercase;
     letter-spacing: .2em;
     font-weight: bold;

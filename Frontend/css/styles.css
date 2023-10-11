@@ -114,3 +114,33 @@ footer {
     background-color: var(--clr-accent1);
     margin: 4em 0 0 0;
 }
+
+/* Buttons */
+.button {
+    width: 200px;
+    height: 25px;
+    background: var(--clr-accent1);
+    color: white;
+    border-radius: 0.5em;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+.button:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    background: #4fa3b4;
+  }
+
+.tab-container {
+    display: flex;
+    gap: 20px; /* adds a bit of whitespace between the buttons */
+    margin: 1.5em 0;
+}
