@@ -1,6 +1,6 @@
 document.getElementById("ForButton").style.color = "#ffe03f";
 
-  document.getElementById("ForButton").onclick = async function () {
+  document.getElementById("ForButtonHis").onclick = async function () {
 
     document.getElementById("ForButton").style.color = "#ffe03f";
   
@@ -15,7 +15,7 @@ document.getElementById("ForButton").style.color = "#ffe03f";
   
   };
 
-  document.getElementById("ActButton").onclick = async function () {
+  document.getElementById("ActButtonHis").onclick = async function () {
   
     document.getElementById("ForButton").style.color = "#ffffff";
   
