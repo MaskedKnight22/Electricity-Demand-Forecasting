@@ -1,4 +1,4 @@
-let actdate = new Date("2022-03-24 23:00:00")
+let actdate = latestactdate()
 
 let fordate = new Date("2022-03-24 23:00:00")
 
@@ -14,11 +14,16 @@ let actcsvString = ''
 
 let forcsvString = ''
 
+document.getElementById("ForButton").style.color = "#ffe03f";
+
 var forheaders = ["Time","Temperature (C)","Pressure_kpa","Cloud Cover (%)","Wind Direction (deg)","Wind Speed (kmh)"];
 
 var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity (%)","Temperature (C)","Wind Direction (deg)","Wind Speed (kmh)"];
 
   document.getElementById("ForButton").onclick = async function () {
+
+    const fileInput = document.getElementById("actfile_upload");
+    fileInput.value = ''; 
 
     document.getElementById("ForButton").style.color = "#ffe03f";
   
@@ -71,6 +76,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   document.getElementById("ForCheck").onclick = async function () {
     
     //Checks if a file has been uploaded
+    fordate = latestfordate()
     var forfiles = document.getElementById('forfile_upload').files;
     if (forfiles.length == 0) {
       alert("Please choose a valid csv file");
@@ -283,7 +289,8 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   };
 
   document.getElementById("ForUpload").onclick = async function () {
-
+    let temfordate = new Date("2022-03-24 23:00:00")
+    temfordate = latestactdate()
     if (foruploadcheck === 1) {
       alert("There is an error in the data, please fix it and reupload the data.");
       return;
@@ -292,13 +299,16 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
       alert("There isn't 24 hours of data. Please make sure you're uploading a days worth of data.'");
       return;
     }
-    else{
+    else if (temfordate === fordate) {
 
-      console.log(forcsvString)
-
+      pushfordate(forcsvString)
+      fordate = latestfordate()
     }
-
-  };
+      else{
+      alert("Someone has updated the data already, please look at the history tab or check the data again")
+      }
+    };
+  
 
   document.getElementById("ForReset").onclick = async function () {
 
@@ -308,10 +318,16 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
     document.getElementById("ForReset").style.display = 'none';
 
+    const fileInput = document.getElementById("forfile_upload");
+    fileInput.value = ''; 
+
   };
 
   document.getElementById("ActButton").onclick = async function () {
   
+    const fileInput = document.getElementById("forfile_upload");
+    fileInput.value = ''; 
+
     document.getElementById("ForButton").style.color = "#ffffff";
   
     document.getElementById("ActButton").style.color = "#ffe03f";
@@ -363,7 +379,8 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   
   
   document.getElementById("ActCheck").onclick = async function () {
-    
+
+    actdate = latestactdate()
     //Checks if a file has been uploaded
     var actfiles = document.getElementById('actfile_upload').files;
     if (actfiles.length == 0) {
@@ -577,7 +594,8 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   };
 
   document.getElementById("ActUpload").onclick = async function () {
-
+    let temactdate = new Date("2022-03-24 23:00:00")
+    temactdate = latestactdate()
     if (actuploadcheck === 1) {
       alert("There is an error in the data, please fix it and reupload the data.");
       return;
@@ -586,10 +604,16 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
       alert("There isn't 24 hours of data. Please make sure you're uploading a days worth of data.'");
       return;
     }
-    else{
-      console.log(actcsvString)
-
-    }
+    else if (temactdate === actdate) {
+      pushactdate(actcsvString)
+      actdate = latestactdate()
+      }
+      else{
+      actdate = temactdate
+      alert("Someone has updated the data already, please look at the history tab or check the data again")
+      }
+    
+    
 
 
   };
@@ -601,6 +625,9 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
     document.getElementById("ActUpload").style.display = 'none';
 
     document.getElementById("ActReset").style.display = 'none';
+
+    const fileInput = document.getElementById("actfile_upload");
+    fileInput.value = ''; 
 
   };
 
@@ -615,3 +642,125 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
     var label = this.previousElementSibling; // get the label
     label.textContent = fileName; // set the file name as label text
 });
+
+async function latestfordate() {
+
+  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/forecasts_not_norm.csv";
+
+  try {
+    const response = await fetch(apiUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch CSV: ${response.status} - ${response.statusText}`);
+    }
+
+
+    const csvText = await response.text();
+    console.log(csvText);
+
+      var rows = e.target.result.trim().split("\r\n");
+      var cells = rows[len(rows)-1].split(",");
+      var cellValue = cells[0].trim();
+
+      var dateParts = cellValue.split(" ");
+      var datePart = dateParts[0].split("/");
+      var timePart = dateParts[1].split(":");
+      var parsedDate = new Date(
+        parseInt(datePart[2]),  // year
+        parseInt(datePart[1]) - 1,  // month (JavaScript months are 0-based)
+        parseInt(datePart[0]),  // day
+        parseInt(timePart[0]),  // hour
+        parseInt(timePart[1])   // minute
+    );
+
+    return parsedDate
+    }
+    catch (e) {
+      console.error(e);
+    }
+};
+
+
+async function latestactdate() {
+  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/actuals_not_norm.csv";
+
+  try {
+    const response = await fetch(apiUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch CSV: ${response.status} - ${response.statusText}`);
+    }
+
+
+    const csvText = await response.text();
+    console.log(csvText);
+
+    //var reader = new FileReader();
+    //reader.readAsBinaryString(file);
+    //reader.onload = function (e) {
+
+      //var rows = e.target.result.trim().split("\r\n");
+      var rows = csvText.target.result.trim().split("\r\n");
+      var cells = rows[len(rows)-1].split(",");
+      var cellValue = cells[0].trim();
+
+      var dateParts = cellValue.split(" ");
+      var datePart = dateParts[0].split("/");
+      var timePart = dateParts[1].split(":");
+      var parsedDate = new Date(
+        parseInt(datePart[2]),  // year
+        parseInt(datePart[1]) - 1,  // month (JavaScript months are 0-based)
+        parseInt(datePart[0]),  // day
+        parseInt(timePart[0]),  // hour
+        parseInt(timePart[1])   // minute
+    );
+    console.log(parsedDate);
+    return parsedDate
+    }
+    catch (e) {
+      console.error(e);
+    }
+
+
+};
+
+function pushfordate(file) {
+
+  //get
+  var finalforstr = ''
+
+  try {
+    var reader = new FileReader();
+    reader.readAsBinaryString(file);
+    reader.onload = function (e) {
+      var csv = e.target.result.trim()
+      finalforstr = csv + forcsvString
+    }
+  }
+  catch (e) {
+    console.error(e);
+  }
+
+  //push
+
+};
+
+
+function pushactdate(file) {
+
+  //get
+  var finalactstr = ''
+
+  try {
+    var reader = new FileReader();
+    reader.readAsBinaryString(file);
+    reader.onload = function (e) {
+      var csv = e.target.result.trim()
+      finalactstr = csv + actcsvString
+    }
+  }
+  catch (e) {
+    console.error(e);
+  }
+
+  //push
+  
+};
