@@ -679,54 +679,28 @@ async function latestfordate() {
     }
 };
 
-
 async function latestactdate() {
-  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/actuals_not_norm.csv";
-  const apiKey = "vKn7EH9LGvawmWiM4ofsl1zvPG0aUmlj8j9yEi9b"; // Your API key
   
-  try {
-    const response = await fetch(apiUrl, {
-      method: 'OPTIONS', // Use the OPTIONS method
-      headers: {
-        'x-api-key': apiKey, // Include your API key as a header
-      },
-    });
-  
-    if (!response.ok) {
-      throw new Error(`Failed to fetch CSV: ${response.status} - ${response.statusText}`);
+  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/actuals.csv";
+
+  fetch(apiUrl, {
+    method: 'GET',
+    mode: 'cors', // Enable CORS
+  })
+  .then(function(response) {
+    if (response.ok) {
+      console.log(response)
+      return response.text();
+    } else {
+      throw new Error("Failed to fetch CSV: " + response.status + " - " + response.statusText);
     }
-  
-    const csvText = await response.text();
-    console.log(response);
-    console.log(csvText);
-
-    //var reader = new FileReader();
-    //reader.readAsBinaryString(file);
-    //reader.onload = function (e) {
-
-      //var rows = e.target.result.trim().split("\r\n");
-      var rows = csvText.target.result.trim().split("\r\n");
-      var cells = rows[len(rows)-1].split(",");
-      var cellValue = cells[0].trim();
-
-      var dateParts = cellValue.split(" ");
-      var datePart = dateParts[0].split("/");
-      var timePart = dateParts[1].split(":");
-      var parsedDate = new Date(
-        parseInt(datePart[2]),  // year
-        parseInt(datePart[1]) - 1,  // month (JavaScript months are 0-based)
-        parseInt(datePart[0]),  // day
-        parseInt(timePart[0]),  // hour
-        parseInt(timePart[1])   // minute
-    );
-    console.log(parsedDate);
-    return parsedDate
-    }
-    catch (e) {
-      console.error(e);
-    }
-
-
+  })
+  .then(function(data) {
+    document.getElementById("result").textContent = "CSV data received: " + data;
+  })
+  .catch(function(error) {
+    document.getElementById("result").textContent = "Error: " + error.message;
+  });
 };
 
 function pushfordate(file) {
