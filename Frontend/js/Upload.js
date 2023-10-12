@@ -681,17 +681,23 @@ async function latestfordate() {
 
 
 async function latestactdate() {
-  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/actuals_not_norm.csv";
+const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/actuals_not_norm.csv";
+const apiKey = "vKn7EH9LGvawmWiM4ofsl1zvPG0aUmlj8j9yEi9b"; // Your API key
 
-  try {
-    const response = await fetch(apiUrl);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch CSV: ${response.status} - ${response.statusText}`);
-    }
+try {
+  const response = await fetch(apiUrl, {
+    method: 'OPTIONS', // Use the OPTIONS method
+    headers: {
+      'x-api-key': apiKey, // Include your API key as a header
+    },
+  });
 
+  if (!response.ok) {
+    throw new Error(Failed to fetch CSV: ${response.status} - ${response.statusText});
+  }
 
-    const csvText = await response.text();
-    console.log(csvText);
+  const csvText = await response.text();
+  console.log(csvText);
 
     //var reader = new FileReader();
     //reader.readAsBinaryString(file);
