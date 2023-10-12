@@ -8,6 +8,10 @@ let forrow = onloadfor();
 
 let actrow = onloadact();
 
+var forheaders = ["Time","Temperature (C)","Pressure_kpa","Cloud Cover (%)","Wind Direction (deg)","Wind Speed (kmh)"];
+
+var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity (%)","Temperature (C)","Wind Direction (deg)","Wind Speed (kmh)"];
+
 async function onloadfor() {
 
   const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/forcasts.csv";
@@ -27,7 +31,27 @@ async function onloadfor() {
 
     //var rows = data.target.result.trim().split("\r\n");
     var rows = data.trim().split("\n")
-                
+
+        var table = document.getElementById("display_forcsv_data");
+          var headers = forheaders;
+          var htmlHeader = '<thead><tr>';
+          for (var i = 0; i < headers.length; i++) {
+            htmlHeader += '<th>' + headers[i] + '</th>';
+          }
+            htmlHeader += '<tr></thead>';
+            var htmlBody = '<tbody>';
+
+            for (var i = rows.length - 1; rows.length - 25; i--) {
+            var cells = rows[i].split(",");
+            htmlBody += '<tr>';
+            for (var j = 0; j < cells.length; j++) {
+              htmlBody += '<td>' + cellContent + '</td>';
+            }
+            htmlBody += '</tr>';
+
+            }
+            htmlBody += '</tbody>';   
+            table.innerHTML = htmlHeader + htmlBody;
     return rows;
   } catch (error) {
     return "Error: " + error.message;
