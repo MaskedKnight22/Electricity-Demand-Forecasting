@@ -10,48 +10,53 @@ let actrow = onloadact();
 
 async function onloadfor() {
 
-    const apiUrl = "https://9sz3kobq0h.execute-api.ap-southeast-2.amazonaws.com/s3-updated-get/electricitydemandforecasting/Data/actuals_not_norm.csv";
-
+  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/forcasts.csv";
+  
   try {
-    const response = await fetch(apiUrl);
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      mode: 'cors', // Enable CORS
+    });
+
     if (!response.ok) {
       throw new Error(`Failed to fetch CSV: ${response.status} - ${response.statusText}`);
     }
 
+    const data = await response.text();
+    //console.log(data)
 
-    const csvText = await response.text();
-    console.log(csvText);
-
-      //var rows = e.target.result.trim().split("\r\n");
-      var rows = csvText.target.result.trim().split("\r\n");
-        return rows
-    }
-    catch (e) {
-      console.error(e);
-    }
+    //var rows = data.target.result.trim().split("\r\n");
+    var rows = data.trim().split("\n")
+                
+    return rows;
+  } catch (error) {
+    return "Error: " + error.message;
+  }
 
 };
 
 async function onloadact() {
+    
+    const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/actuals.csv";
+  
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        mode: 'cors', // Enable CORS
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to fetch CSV: ${response.status} - ${response.statusText}`);
+      }
+  
+      const data = await response.text();
+      //console.log(data)
 
-      const apiUrl = "https://9sz3kobq0h.execute-api.ap-southeast-2.amazonaws.com/s3-updated-get/electricitydemandforecasting/Data/actuals_not_norm.csv";
-
-  try {
-    const response = await fetch(apiUrl);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch CSV: ${response.status} - ${response.statusText}`);
-    }
-
-
-    const csvText = await response.text();
-    console.log(csvText);
-
-      //var rows = e.target.result.trim().split("\r\n");
-      var rows = csvText.target.result.trim().split("\r\n");
-        return rows
-    }
-    catch (e) {
-      console.error(e);
+      //var rows = data.target.result.trim().split("\r\n");
+      var rows = data.trim().split("\n")
+      return rows;
+    } catch (error) {
+      return "Error: " + error.message;
     }
 
 }
