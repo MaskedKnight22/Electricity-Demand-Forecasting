@@ -693,7 +693,7 @@ try {
   });
 
   if (!response.ok) {
-    throw new Error(Failed to fetch CSV: ${response.status} - ${response.statusText});
+    throw new Error(`Failed to fetch CSV: ${response.status} - ${response.statusText}`);
   }
 
   const csvText = await response.text();
