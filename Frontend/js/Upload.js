@@ -1,6 +1,6 @@
 let actdate = latestactdate()
 
-let fordate = new Date("2022-03-24 23:00:00")
+let fordate = latestfordate()
 
 let foruploadcheck = 0;
 
@@ -645,7 +645,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
 async function latestfordate() {
 
-  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/forcasts.csv";
+  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/forcasts_not_norm.csv";
   
   try {
     const response = await fetch(apiUrl, {
@@ -683,7 +683,7 @@ async function latestfordate() {
 
 async function latestactdate() {
   
-    const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/actuals.csv";
+    const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/actuals_not_norm.csv";
   
     try {
       const response = await fetch(apiUrl, {
