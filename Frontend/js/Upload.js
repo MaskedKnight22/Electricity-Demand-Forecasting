@@ -645,22 +645,63 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
 async function latestfordate() {
 
-  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/forecasts_not_norm.csv";
-
+  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/forcasts.csv";
+  
   try {
-    const response = await fetch(apiUrl);
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      mode: 'cors', // Enable CORS
+    });
+
     if (!response.ok) {
       throw new Error(`Failed to fetch CSV: ${response.status} - ${response.statusText}`);
     }
 
+    const data = await response.text();
+    //console.log(data)
 
-    const csvText = await response.text();
-    console.log(csvText);
+    //var rows = data.target.result.trim().split("\r\n");
+    var rows = data.trim().split("\n")
+    var cells = rows[rows.length -1].split(",");
+    var cellValue = cells[0].trim();
+    var dateParts = cellValue.split(" ");
+    var datePart = dateParts[0].split("/");
+    var timePart = dateParts[1].split(":");
+    var parsedDate = new Date(
+      parseInt(datePart[2]),  // year
+      parseInt(datePart[1]) - 1,  // month (JavaScript months are 0-based)
+      parseInt(datePart[0]),  // day
+      parseInt(timePart[0]),  // hour
+      parseInt(timePart[1])   // minute
+    );
+    console.log(parsedDate)
+    return parsedDate;
+  } catch (error) {
+    return "Error: " + error.message;
+  }
+};
 
-      var rows = e.target.result.trim().split("\r\n");
-      var cells = rows[len(rows)-1].split(",");
+async function latestactdate() {
+  
+    const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/actuals.csv";
+  
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        mode: 'cors', // Enable CORS
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to fetch CSV: ${response.status} - ${response.statusText}`);
+      }
+  
+      const data = await response.text();
+      //console.log(data)
+
+      //var rows = data.target.result.trim().split("\r\n");
+      var rows = data.trim().split("\n")
+      var cells = rows[rows.length -1].split(",");
       var cellValue = cells[0].trim();
-
       var dateParts = cellValue.split(" ");
       var datePart = dateParts[0].split("/");
       var timePart = dateParts[1].split(":");
@@ -670,37 +711,12 @@ async function latestfordate() {
         parseInt(datePart[0]),  // day
         parseInt(timePart[0]),  // hour
         parseInt(timePart[1])   // minute
-    );
-
-    return parsedDate
+      );
+      console.log(parsedDate)
+      return parsedDate;
+    } catch (error) {
+      return "Error: " + error.message;
     }
-    catch (e) {
-      console.error(e);
-    }
-};
-
-async function latestactdate() {
-  
-  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/actuals.csv";
-
-  fetch(apiUrl, {
-    method: 'GET',
-    mode: 'cors', // Enable CORS
-  })
-  .then(function(response) {
-    if (response.ok) {
-      console.log(response)
-      return response.text();
-    } else {
-      throw new Error("Failed to fetch CSV: " + response.status + " - " + response.statusText);
-    }
-  })
-  .then(function(data) {
-    document.getElementById("result").textContent = "CSV data received: " + data;
-  })
-  .catch(function(error) {
-    document.getElementById("result").textContent = "Error: " + error.message;
-  });
 };
 
 function pushfordate(file) {
@@ -725,23 +741,42 @@ function pushfordate(file) {
 };
 
 
-function pushactdate(file) {
+async function pushactdate() {
 
-  //get
-  var finalactstr = ''
+  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/actuals.csv";
+  const apiUrl2 = "https://cors-anywhere.herokuapp.com/https://uyugf0njkf.execute-api.ap-southeast-2.amazonaws.com/file-upload-s3/electricitydemandforecasting/Data/newlyuploaded.csv"; // Using CORS Anywhere as a proxy
 
   try {
-    var reader = new FileReader();
-    reader.readAsBinaryString(file);
-    reader.onload = function (e) {
-      var csv = e.target.result.trim()
-      finalactstr = csv + actcsvString
-    }
-  }
-  catch (e) {
-    console.error(e);
-  }
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      mode: 'cors', // Enable CORS
+    });
 
-  //push
+    if (!response.ok) {
+      throw new Error(`Failed to fetch CSV: ${response.status} - ${response.statusText}`);
+    }
+
+    const finalactstr = await response.text();
+      finalactstr = finalactstr + actcsvString
+
+  fetch(apiUrl2, {
+    method: 'PUT',
+    mode: 'cors', // Enable CORS
+    body: finalactstr,
+  })
+  .then(function(response) {
+    if (response.ok) {
+      document.getElementById("result").textContent = "CSV file uploaded successfully.";
+    } else {
+      throw new Error("Failed to upload CSV file: " + response.status + " - " + response.statusText);
+    }
+  })
+  .catch(function(error) {
+    document.getElementById("result").textContent = "Error: " + error.message;
+  });
+
+} catch (error) {
+  return "Error: " + error.message;
+}
   
 };
