@@ -696,7 +696,7 @@ async function latestactdate() {
       }
   
       const data = await response.text();
-      //console.log(data)
+      console.log(data)
 
       //var rows = data.target.result.trim().split("\r\n");
       var rows = data.trim().split("\n")
