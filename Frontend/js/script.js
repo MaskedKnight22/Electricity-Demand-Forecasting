@@ -7,7 +7,8 @@ const COLORS = {
     BACKGROUND: 'rgba(255, 241, 145, 1)',
     BORDER: 'rgba(50, 128, 144, 1)',
     BORDER_LITE: 'rgba(50, 128, 144, 0.5)',
-    ACCENT: 'rgb(135, 210, 215, 0.7)'
+    ACCENT: 'rgb(135, 210, 215, 0.7)',
+    YELLOW: 'rgb(255, 224, 63, 1)'
 };
 
 // This function will fetch and render the predictions from the Prophet model.
@@ -55,14 +56,14 @@ function fetchLightGBMData(callback) {
                 data: {
                     labels: times,
                     datasets: [{
-                        label: 'Actual Load (kW)',
+                        label: 'Actual Load',
                         data: actualLoads,
-                        borderColor: 'rgb(255, 99, 132)',
+                        borderColor: COLORS.YELLOW,
                         fill: false
                     }, {
                         label: 'Predicted Load (LightGBM)',
                         data: predictedLoads,
-                        borderColor: 'rgb(75, 192, 192)',
+                        borderColor: COLORS.BORDER,
                         fill: false
                     }]
                 },
@@ -73,9 +74,9 @@ function fetchLightGBMData(callback) {
                             type: 'timeseries',
                             time: {
                                 parser: 'YYYY-MM-DDTHH:mm:ss',
-                                unit: 'hour',
+                                tooltipFormat: 'DD/MM/YYYY HH:mm',
                                 displayFormats: {
-                                    hour: 'HH:mm'
+                                    hour: 'DD/MM/YYYY HH:mm'
                                 }
                             }
                         }
@@ -83,16 +84,28 @@ function fetchLightGBMData(callback) {
                     plugins: {
                         tooltip: {
                             callbacks: {
-                                afterTitle: function(context) {
+                                title: function(context) {
+                                    const date = new Date(context[0].parsed.x);
+                                    return moment(date).format('DD/MM/YYYY HH:mm');
+                                },
+                                label: function(context) {
+                                    const label = context.dataset.label;
+                                    return label + ': ' + context.parsed.y;
+                                },
+                                afterBody: function(context) {
                                     let dataIndex = context[0].dataIndex;
-                                    return 'Temperature: ' + temperatures[dataIndex] + ' C' +
-                                           '\nWind Speed: ' + windSpeeds[dataIndex] + ' km/h';
+                                    return ['• Temperature: ' + formatNumber(temperatures[dataIndex]),
+                                    '• Wind Speed: ' + formatNumber(windSpeeds[dataIndex])];
+                                },
+                                footer: function() {
+                                    return '*Data is normalized between 0 and 1';
                                 }
                             }
                         }
                     }
                 }
             });
+
             // If there's a callback, call it
             if (callback) {
                 callback();
@@ -105,6 +118,11 @@ function fetchLightGBMData(callback) {
                 callback();
             }
         });
+}
+
+// Function to limit decimal numbers to a maximum of 3:
+function formatNumber(value) {
+    return parseFloat(value).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 3 });
 }
 
 // Function to produce new predictions and visualize them in chart form
