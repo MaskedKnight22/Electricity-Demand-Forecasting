@@ -25,7 +25,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
 async function onloadfor() {
 
-  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/forecasts.csv";
+  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/forecasts_not_norm.csv";
   
   try {
     const response = await fetch(apiUrl, {
@@ -76,7 +76,7 @@ async function onloadact() {
     
   document.getElementById("ForButtonL").style.display = 'none';
 
-    const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/actuals.csv";
+    const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/actuals_not_norm.csv";
   
     try {
       const response = await fetch(apiUrl, {
