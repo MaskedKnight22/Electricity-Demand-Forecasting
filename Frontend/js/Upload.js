@@ -14,9 +14,10 @@ let actcsvString = ''
 
 let forcsvString = ''
 
+
 document.getElementById("ForButton").style.color = "#ffe03f";
 
-var forheaders = ["Time","Temperature (C)","Pressure_kpa","Cloud Cover (%)","Wind Direction (deg)","Wind Speed (kmh)"];
+var forheaders = ["Time","Cloud Cover (%)","Pressure_kpa","Temperature (C)","Wind Direction (deg)","Wind Speed (kmh)"];
 
 var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity (%)","Temperature (C)","Wind Direction (deg)","Wind Speed (kmh)"];
 
@@ -45,9 +46,11 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   
     document.getElementById("ForTemButton").style.color = "#ffffff";
 
-    var fortemtime = new Date(fordate.getTime() + 60 * 60 * 1000);
+    var fortemtime = await latestfordate()
+
+    fortemtime.setTime(fortemtime.getTime() + 60 * 60 * 1000);
   
-    var csv = 'Time,Temperature (C),Pressure_kpa,Cloud Cover (%),Wind Direction (deg),Wind Speed (kmh)\n';
+    var csv = 'Time,Cloud Cover (%),Pressure_kpa,Temperature (C),Wind Direction (deg),Wind Speed (kmh)\n';
   
     for (var i = 0; i < 24; i++) {
       var year = fortemtime.getFullYear();
@@ -58,8 +61,8 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
       var seconds = String(fortemtime.getSeconds()).padStart(2, '0');
   
       var fortime = day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds;
-  
-      csv += fortime + ",0,0,0,0,0\n";
+
+      csv += fortime + (i === 23 ? ",0,0,0,0,0" : ",0,0,0,0,0\n")
   
       // Increment the time by 1 hour for the next row
       fortemtime.setTime(fortemtime.getTime() + 60 * 60 * 1000);
@@ -76,7 +79,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   document.getElementById("ForCheck").onclick = async function () {
     
     //Checks if a file has been uploaded
-    fordate = latestfordate()
+    fordate = await latestfordate()
     var forfiles = document.getElementById('forfile_upload').files;
     if (forfiles.length == 0) {
       alert("Please choose a valid csv file");
@@ -290,7 +293,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
   document.getElementById("ForUpload").onclick = async function () {
     let temfordate = new Date("2022-03-24 23:00:00")
-    temfordate = latestactdate()
+    temfordate = await latestactdate()
     if (foruploadcheck === 1) {
       alert("There is an error in the data, please fix it and reupload the data.");
       return;
@@ -302,7 +305,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
     else if (temfordate === fordate) {
 
       pushfordate(forcsvString)
-      fordate = latestfordate()
+      fordate = await latestfordate()
     }
       else{
       alert("Someone has updated the data already, please look at the history tab or check the data again")
@@ -347,7 +350,9 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   
     document.getElementById("ActTemButton").style.color = "#ffffff";
 
-    var acttemtime = new Date(actdate.getTime() + 60 * 60 * 1000);
+    var acttemtime = await latestactdate()
+
+    acttemtime.setTime(acttemtime.getTime() + 60 * 60 * 1000);
   
     var csv = 'Time,Load (kW),Pressure_kpa,Cloud Cover (%),Humidity (%),Temperature (C),Wind Direction (deg),Wind Speed (kmh)\n';
   
@@ -361,7 +366,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   
       var acttime = day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds;
   
-      csv += acttime + ",0,0,0,0,0,0,0\n";
+      csv += acttime + (i === 23 ? ",0,0,0,0,0" : ",0,0,0,0,0\n")
   
       // Increment the time by 1 hour for the next row
       acttemtime.setTime(acttemtime.getTime() + 60 * 60 * 1000);
@@ -380,7 +385,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   
   document.getElementById("ActCheck").onclick = async function () {
 
-    actdate = latestactdate()
+    actdate = await latestactdate()
     //Checks if a file has been uploaded
     var actfiles = document.getElementById('actfile_upload').files;
     if (actfiles.length == 0) {
@@ -595,7 +600,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
   document.getElementById("ActUpload").onclick = async function () {
     let temactdate = new Date("2022-03-24 23:00:00")
-    temactdate = latestactdate()
+    temactdate = await latestactdate()
     if (actuploadcheck === 1) {
       alert("There is an error in the data, please fix it and reupload the data.");
       return;
@@ -604,12 +609,11 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
       alert("There isn't 24 hours of data. Please make sure you're uploading a days worth of data.'");
       return;
     }
-    else if (temactdate === actdate) {
-      pushactdate(actcsvString)
-      actdate = latestactdate()
+    else if (temactdate.getTime() === actdate.getTime()) {
+      await pushactdate()
+      actdate = await latestactdate()
       }
       else{
-      actdate = temactdate
       alert("Someone has updated the data already, please look at the history tab or check the data again")
       }
     
@@ -645,7 +649,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
 
 async function latestfordate() {
 
-  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/forcasts_not_norm.csv";
+  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/forecasts_not_norm.csv";
   
   try {
     const response = await fetch(apiUrl, {
@@ -674,7 +678,6 @@ async function latestfordate() {
       parseInt(timePart[0]),  // hour
       parseInt(timePart[1])   // minute
     );
-    console.log(parsedDate)
     return parsedDate;
   } catch (error) {
     return "Error: " + error.message;
@@ -696,7 +699,7 @@ async function latestactdate() {
       }
   
       const data = await response.text();
-      console.log(data)
+      //console.log(data)
 
       //var rows = data.target.result.trim().split("\r\n");
       var rows = data.trim().split("\n")
@@ -712,40 +715,18 @@ async function latestactdate() {
         parseInt(timePart[0]),  // hour
         parseInt(timePart[1])   // minute
       );
-      console.log(parsedDate)
       return parsedDate;
     } catch (error) {
       return "Error: " + error.message;
     }
 };
 
-function pushfordate(file) {
+async function pushfordate() {
 
-  //get
-  var finalforstr = ''
+  const apiUrl2 = "https://cors-anywhere.herokuapp.com/https://uyugf0njkf.execute-api.ap-southeast-2.amazonaws.com/file-upload-s3/electricitydemandforecasting/Data/csvforupload.csv"; // Using CORS Anywhere as a proxy
 
-  try {
-    var reader = new FileReader();
-    reader.readAsBinaryString(file);
-    reader.onload = function (e) {
-      var csv = e.target.result.trim()
-      finalforstr = csv + forcsvString
-    }
-  }
-  catch (e) {
-    console.error(e);
-  }
-
-  //push
-
-};
-
-
-async function pushactdate() {
-
-  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/actuals.csv";
-  const apiUrl2 = "https://cors-anywhere.herokuapp.com/https://uyugf0njkf.execute-api.ap-southeast-2.amazonaws.com/file-upload-s3/electricitydemandforecasting/Data/newlyuploaded.csv"; // Using CORS Anywhere as a proxy
-
+  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/forcasts_not_norm.csv";
+  
   try {
     const response = await fetch(apiUrl, {
       method: 'GET',
@@ -756,13 +737,60 @@ async function pushactdate() {
       throw new Error(`Failed to fetch CSV: ${response.status} - ${response.statusText}`);
     }
 
-    const finalactstr = await response.text();
-      finalactstr = finalactstr + actcsvString
+    const data = await response.text();
+    console.log("test2")
+    var data2 = data + actcsvString
+    console.log(data2)
+
 
   fetch(apiUrl2, {
     method: 'PUT',
-    mode: 'cors', // Enable CORS
-    body: finalactstr,
+    mode: 'cors', // Enable CORS 
+    body: data2,
+  })
+  .then(function(response) {
+    if (response.ok) {
+      document.getElementById("result").textContent = "CSV file uploaded successfully.";
+    } else {
+      throw new Error("Failed to upload CSV file: " + response.status + " - " + response.statusText);
+    }
+  })
+  .catch(function(error) {
+    document.getElementById("result").textContent = "Error: " + error.message;
+  });
+
+} catch (error) {
+  return "Error: " + error.message;
+}
+
+};
+
+
+async function pushactdate() {
+  const apiUrl2 = "https://cors-anywhere.herokuapp.com/https://uyugf0njkf.execute-api.ap-southeast-2.amazonaws.com/file-upload-s3/electricitydemandforecasting/Data/csvactupload.csv"; // Using CORS Anywhere as a proxy
+
+  const apiUrl = "https://ob3892ocba.execute-api.ap-southeast-2.amazonaws.com/file-get-s3/electricitydemandforecasting/Data/actuals_not_norm.csv";
+  
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      mode: 'cors', // Enable CORS
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch CSV: ${response.status} - ${response.statusText}`);
+    }
+
+    const data = await response.text();
+    console.log("test2")
+    var data2 = data + actcsvString
+    console.log(data2)
+
+
+  fetch(apiUrl2, {
+    method: 'PUT',
+    mode: 'cors', // Enable CORS 
+    body: data2,
   })
   .then(function(response) {
     if (response.ok) {
