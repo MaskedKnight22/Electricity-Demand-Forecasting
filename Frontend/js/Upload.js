@@ -366,7 +366,7 @@ var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity 
   
       var acttime = day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds;
   
-      csv += acttime + (i === 23 ? ",0,0,0,0,0" : ",0,0,0,0,0\n")
+      csv += acttime + (i === 23 ? ",0,0,0,0,0,0,0" : ",0,0,0,0,0,0,0\n")
   
       // Increment the time by 1 hour for the next row
       acttemtime.setTime(acttemtime.getTime() + 60 * 60 * 1000);
