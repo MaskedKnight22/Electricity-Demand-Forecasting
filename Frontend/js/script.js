@@ -178,7 +178,7 @@ document.getElementById("fetchPredictions").addEventListener("click", function()
     });
 });
 
-function displayDataInChart(times, actualLoads, predictedLoads, temperatures, windSpeeds, pressures, cloudCovers, windDirections) {
+function displayDataInChart(times, actualLoads, predictedLoads, temperatures, windSpeeds, pressures, cloudCovers, humidities, windDirections) {
     var ctx = document.getElementById('myChart').getContext('2d');
     
     // Before creating a new chart, check if there's an existing chart and destroy it
