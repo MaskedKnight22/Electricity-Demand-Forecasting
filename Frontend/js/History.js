@@ -18,7 +18,7 @@ onloadact()
 
 console.log(actrow)
 
-var forheaders = ["Time","Temperature (C)","Pressure_kpa","Cloud Cover (%)","Wind Direction (deg)","Wind Speed (kmh)"];
+var forheaders = ["Time","Cloud Cover (%)","Pressure_kpa","Temperature (C)","Wind Direction (deg)","Wind Speed (kmh)"];
 
 var actheaders = ["Time","Load (kW)","Pressure_kpa","Cloud Cover (%)","Humidity (%)","Temperature (C)","Wind Direction (deg)","Wind Speed (kmh)"];
 
